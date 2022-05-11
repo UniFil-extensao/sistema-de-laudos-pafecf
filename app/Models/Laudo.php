@@ -37,7 +37,7 @@ class Laudo extends Model
     }
 
     /**
-     * Função responsável por fazer o relacionamento entre a os PDVs e o Laudo.
+     * Função responsável por fazer o relacionamento entre os PDVs e o Laudo.
      * @return void
      */
     public function pdvs()
@@ -48,7 +48,7 @@ class Laudo extends Model
     /**
      * Função responsável por receber o array de entradas da checkbox
      *  e transformar num longText antes de passar para o controller.
-     * @param $value - objeto contendo os arrays a serem trasnformados antes de passagem para o controller.
+     * @param $value - objeto contendo os arrays a serem transformados antes de passagem para o controller.
      * @return void
      */  
     public function getCategoryAttribute($value)

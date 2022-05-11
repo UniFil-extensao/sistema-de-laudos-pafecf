@@ -15,7 +15,7 @@ use App\Models\Laudo;
  * @access public
  */
 class PDVController extends Controller
-{   
+{
     /**
      * Função responsável por limitar as funções dessa classe somente para usuários logados.
      * @return void
@@ -55,7 +55,7 @@ class PDVController extends Controller
      * @return view - Volta para a página inicial do cadastro de PDVs com uma mensagem de êxito.
      */
     public function store(StorePDVRequest $request, $id_empresa){
-        
+
         $pdv = new PDV;
 
         $empresa = Empresa::find($id_empresa);
@@ -82,7 +82,7 @@ class PDVController extends Controller
         $pdv->perfis = implode(", ", $request->perfis);
 
         $pdv->validacao = true;
-        
+
         $pdv->save();
         return redirect()->back()->with('msg', 'PDV Cadastrado com Sucesso!!');
     }
@@ -93,7 +93,7 @@ class PDVController extends Controller
      * @return view - Retorna para a mesma página com a mensagem de êxito ou de erro.
      */
     public function update(StorePDVRequest $request, $id)
-    {   
+    {
         $pdv = PDV::find($id);
         $laudos = Laudo::where('id_pdv', $id)->get();
         $request->aplicacoes_especiais = implode(", ", $request->aplicacoes_especiais);
@@ -113,11 +113,14 @@ class PDVController extends Controller
             $pdv->nfce == $request->input('nfce') &&
             $pdv->tratamento_interrupcao == $request->input('tratamento_interrupcao') &&
             $pdv->integracao_paf == $request->input('integracao_paf') &&
-            
+
             $pdv->aplicacoes_especiais == $request->aplicacoes_especiais &&
+            $pdv->executavel_sgbd == $request->input('executavel_sgbd') &&
+            $pdv->executavel_sped == $request->input('executavel_sped') &&
+            $pdv->executavel_nfe == $request->input('executavel_nfe') &&
             $pdv->forma_impressao == $request->forma_impressao &&
             $pdv->perfis == $request->perfis
-        ) 
+        )
         {
             return redirect()->back()->with('msgerro', 'Nenhum campo alterado!!');
         } else {
@@ -135,6 +138,9 @@ class PDVController extends Controller
             $pdv->tratamento_interrupcao = $request->input('tratamento_interrupcao');
             $pdv->integracao_paf = $request->input('integracao_paf');
             $pdv->aplicacoes_especiais = $request->aplicacoes_especiais;
+            $pdv->executavel_sgbd = $request->input('executavel_sgbd');
+            $pdv->executavel_sped = $request->input('executavel_sped');
+            $pdv->executavel_nfe = $request->input('executavel_nfe');
             $pdv->forma_impressao = $request->forma_impressao;
             $pdv->perfis = $request->perfis;
 
@@ -151,12 +157,12 @@ class PDVController extends Controller
     }
 
     /**
-     * Função responsável por esconver da visualização do usuário o cadastro do PDV.
+     * Função responsável por esconder da visualização do usuário o cadastro do PDV.
      * @param Integer $id - identificador da empresa
      * @return view - Volta para a página inicial do cadastro de PDV com uma mensagem de êxito.
      */
     public function destroy($id)
-    {   
+    {
         $pdv = PDV::find($id);
         $empresa = Empresa::find($pdv->id_empresa);
         $empresa_id = $empresa->id;

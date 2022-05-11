@@ -24,7 +24,8 @@ class PDV extends Model
     'sistema_operacional', 'data_base', 'tipo_desenvolvimento',
     'tipo_funcionamento', 'nfe', 'sped', 'nfce', 
     'tratamento_interrupcao', 'integracao_paf', 
-    'aplicacoes_especiais', 'forma_impressao', 'perfis'];
+    'aplicacoes_especiais', 'executavel_sgbd', 'executavel_sped', 'executavel_nfe', 
+    'forma_impressao', 'perfis'];
 
     /**
      * Função responsável por fazer o relacionamento entre a empresa e o PDV.
@@ -53,6 +54,9 @@ class PDV extends Model
     public function setCategoryAttribute($value)
     {
         $this->attributes['aplicacoes_especiais'] = json_encode($value);
+        $this->attributes['executavel_sgbd'] = json_encode($value);
+        $this->attributes['executavel_sped'] = json_encode($value);
+        $this->attributes['executavel_nfe'] = json_encode($value);
         $this->attributes['forma_impressao'] = json_encode($value);
         $this->attributes['perfis'] = json_encode($value);
     }
@@ -66,6 +70,9 @@ class PDV extends Model
     public function getCategoryAttribute($value)
     {
         return $this->attributes['aplicacoes_especiais'] = json_decode($value);
+        return $this->attributes['executavel_sgbd'] = json_decode($value);
+        return $this->attributes['executavel_sped'] = json_decode($value);
+        return $this->attributes['executavel_nfe'] = json_decode($value);
         return $this->attributes['forma_impressao'] = json_decode($value);
         return $this->attributes['perfis'] = json_decode($value);
     }

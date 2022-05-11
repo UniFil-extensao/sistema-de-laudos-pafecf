@@ -23,7 +23,7 @@
         @csrf
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#base" role="tab">Informações Basicas</a>
+                <a class="nav-link active" data-toggle="tab" href="#base" role="tab">Informações Básicas</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#homologacao" role="tab">Arquivos da Homologação</a>
@@ -226,15 +226,18 @@
                 </div>
                 <div class="form-group control-label col-md-7">
                     <label for="executavel_sgbd">Escolha o Arquivo Executável Responsável pelo SGBD e seu Respectivo
-                        MD5</label>
+                        MD5
+                    </label>
                     @error('executavel_sgbd')
                         <div class="invalid-feedback" style="color: red">
                             {{ $message }}
                         </div>
                     @enderror
-                    <select name="executavel_sgbd" id="executavel_sgbd">
-                        <option selected>Selecione o Executável</option>
-                    </select>
+                    <div>
+                        <label for="executavel_sgbd"></label>
+                        <input type="hidden" name="executavel_sgbd" id="executavel_sgbd">
+                        <input type="file" accept=".exe">
+                    </div>
                 </div>
                 <br>
                 <div class="control-label col-md-12">
@@ -260,25 +263,32 @@
                             {{ $message }}
                         </div>
                     @enderror
-                    <select name="executavel_sped" id="executavel_sped">
-                        <option selected>Selecione o Executável</option>
-                    </select>
+                        <select name="executavel_sped" id="executavel_sped" required>
+                            <option selected>Selecione o Executável</option>
+                        </select>
+                    <!-- <div>
+                        <label for="executavel_sped"></label>
+                        <input type="hidden" name="executavel_sped" id="executavel_sped">
+                        <input type="file" accept=".exe">
+                    </div> -->
                 </div>
                 <div class="control-label col-md-12">
                     <label>Identificação dos Sistemas de PED que geram a NF-e e funcionam integrados ao PAF-ECF: </label>
                 </div>
                 <div class="form-group control-label col-md-7">
                     <label for="executavel_nfe">Escolha o Arquivo Executável Responsável pelo gerador de NF-e e seu
-                        Respectivo
-                        MD5</label>
+                        Respectivo MD5
+                    </label>
                     @error('executavel_nfe')
                         <div class="invalid-feedback" style="color: red">
                             {{ $message }}
                         </div>
                     @enderror
-                    <select name="executavel_nfe" id="executavel_nfe">
-                        <option selected>Selecione o Executável</option>
-                    </select>
+                    <div>
+                        <label for="executavel_nfe"></label>
+                        <input type="hidden" name="executavel_nfe" id="executavel_nfe">
+                        <input type="file" accept=".exe">
+                    </div>
                 </div>
             </div>
             <div class="tab-pane" id="relatorio" role="tabpanel">

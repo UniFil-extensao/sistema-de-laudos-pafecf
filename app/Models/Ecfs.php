@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Marca;
+use App\Models\Modelo;
 
 /**
  * Classe Model da ECF
@@ -14,4 +16,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Ecfs extends Model
 {
+    public function allEcfs()
+    {
+        Marca::resolveRelationUsing('nome', function ($marcaModel) {
+            return $marcaModel->belongsTo(Modelo::class, 'marca_id');
+        });
+    }
 }

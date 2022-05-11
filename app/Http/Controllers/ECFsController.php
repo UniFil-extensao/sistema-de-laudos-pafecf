@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use DOMDocument;
 use App\Http\Requests\StoreECFRequest;
 use App\Models\Ecfs;
+use App\Http\Controllers\MarcaController;
+use App\Http\Controllers\ModeloController;
+use App\Models\Modelo;
 
 /**
  * Classe de controle das ECFs
@@ -13,7 +17,7 @@ use App\Models\Ecfs;
  * @access public
  */
 class ECFsController extends Controller
-{   
+{
     /**
      * Função responsável por limitar as funções dessa classe somente para usuários logados.
      * @return void
@@ -25,12 +29,12 @@ class ECFsController extends Controller
 
     /**
      * Função responsável por chamar a view inicial do cadastro de ECF.
-     * Mostra também o formulário de cadastro de ECF's.
+     * Mostra também o formulário de cadastro de ECFs.
      * @return view - * Mostra todas as ECF's cadastradas numa listagem.
      */
     public function index(){
-        $ecfs = Ecfs::orderBy('marca')->paginate(10);
-        return view('ecfs.index', ['ecfs' => $ecfs]);
+        $ecfsExistentes = Modelo::all();
+        return view('ecfs.index', ['ecfs'=>$ecfsExistentes]);
     }
 
     /**
@@ -54,14 +58,4 @@ class ECFsController extends Controller
         return redirect('/ecfs')->with('msg', 'ECF cadastrada com Sucesso!!');
     }
 
-    /**
-     * Função responsável por excluir o registro da ECF.
-     * @param Integer $id - identificador da ECF.
-     * @return view - Volta para a página inicial do cadastro de ECFs com uma mensagem de êxito.
-     */
-    public function destroy($id){
-        $ecf = Ecfs::find($id);
-        $ecf->delete();
-        return redirect()->route('ecfs.index')->with('msgerro', 'ECF Excluída com Sucesso!!');
-    }
 }

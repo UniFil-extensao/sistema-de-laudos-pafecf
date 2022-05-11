@@ -173,7 +173,7 @@
                     </select>
                 </div>
                 <div class="form-group control-label col-md-4">
-                    <label for="nfe">Emite Nota Fiscal Eletronica - NF-e:</label>
+                    <label for="nfe">Emite Nota Fiscal Eletrônica - NF-e:</label>
                     <select name="nfe" id="nfe">
                         @if ($pdv->nfe == 'sim'))
                             <option value="sim" selected>Sim</option>
@@ -203,7 +203,7 @@
                     </select>
                 </div>
                 <div class="form-group control-label col-md-5">
-                    <label for="nfce">Emite Nota Fiscal Consumidor Eletronica - NFC-e:</label>
+                    <label for="nfce">Emite Nota Fiscal Consumidor Eletrônica - NFC-e:</label>
                     <select name="nfce" id="nfce">
                         @if ($pdv->nfce == 'sim'))
                             <option value="sim" selected>Sim</option>
@@ -267,6 +267,40 @@
                 </div>
                 <div class="form-group control-label col-md-9">
                     <label for="aplicacoes_especiais">Aplicações Especiais:</label>
+
+                    <div class="form-group control-label col-md-12">
+                        <label for="executavel_sgbd">Nome do Arquivo Executável Responsável pelo SGBD</label>
+                        <input type="text" class="form-control @error('executavel_sgbd') is-invalid @enderror"
+                            id="executavel_sgbd" name="executavel_sgbd" placeholder="Executavel SGBD"
+                            value="{{ $pdv->executavel_sgbd }}">
+                        @error('executavel_sgbd')
+                            <div class="invalid-feedback" style="color: red">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="form-group control-label col-md-12">
+                        <label for="executavel_sped">Nome do Arquivo Executável Responsável pelo SPED</label>
+                        <input type="text" class="form-control @error('executavel_sped') is-invalid @enderror"
+                            id="executavel_sped" name="executavel_sped" placeholder="Executavel SPED"
+                            value="{{ $pdv->executavel_sped }}">
+                        @error('executavel_sped')
+                            <div class="invalid-feedback" style="color: red">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                    <div class="form-group control-label col-md-12">
+                        <label for="executavel_nfe">Nome do Arquivo Executável Responsável pelo gerador de NF-e</label>
+                        <input type="text" class="form-control @error('executavel_nfe') is-invalid @enderror"
+                            id="executavel_nfe" name="executavel_nfe" placeholder="Executavel NF-e"
+                            value="{{ $pdv->executavel_nfe }}">
+                        @error('executavel_nfe')
+                            <div class="invalid-feedback" style="color: red">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
                     <div>
                         <input type="checkbox" id="posto_com_bomba" name="aplicacoes_especiais[]" value="posto_com_bomba"
                             @foreach ($aplicacoes as $valor)
@@ -447,7 +481,7 @@
                             checked
                         @endif
                         @endforeach>
-                        <label for="nao_concomitante_pv">Não Concomitante com contrle de Pré-venda</label>
+                        <label for="nao_concomitante_pv">Não Concomitante com controle de Pré-venda</label>
                     </div>
                     <div>
                         <input type="checkbox" id="nao_concomitante_cc" name="forma_impressao[]" value="nao_concomitante_cc"
