@@ -18,9 +18,7 @@ class Modelo extends Model
 {
     use HasFactory;
 
-    public $fillable = [
-        'nome'
-    ];
+    public $fillable = [ 'nome' ];
 
     public function marca()
     {

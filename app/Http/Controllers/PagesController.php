@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 /**
  * Classe de controle das páginas - PS: não está sendo utilizada. Foi criada para testes.
  * @author Leonardo Lima
- * @version 1.0
- * @copyright NPI © 2021, Núcleo de Práticas em Informática LTDA.
+ * @author Pedro Fernando Dalbello Rocha
+ * @version 2.0
+ * @copyright NPI © 2022, Núcleo de Práticas em Informática LTDA.
  * @access public
  */
 class PagesController extends Controller

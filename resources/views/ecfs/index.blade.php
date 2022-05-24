@@ -1,8 +1,31 @@
 @extends('layouts.app')
 @section('content')
+    <head>
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            function search() {
+                var value = $("#buscarEcf").val().toLowerCase();
+                $("#table tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        }
+        </script>
+    </head>
+    <div>
+        <div style="display: grid; grid-template-columns: 41% 10% 47.3%; gap: 10px" class="grid_pesquisa">
+            <input type="text" id="buscarEcf" class="col-md-5" name="buscarEcf"
+            onkeyup="search()" placeholder="Digite a marca ou modelo específico..." style="width: 100%"/>
+            <button id="buttonSearch" type="search" class="btn btn-default">Pesquisar</button>
 
-    <a href="https://sat.sef.sc.gov.br/tax.net/sat.cei.web/ecf/listagem.aspx" class="btn btn-default">CEI - Listagem Oficial de ECFs Válidas.</a>
-    <h1>Listagem de ECF's Válidas</h1>
+            <a href="https://sat.sef.sc.gov.br/tax.net/sat.cei.web/ecf/listagem.aspx" class="btn btn-default"
+                style="justify-self: end">CEI - Listagem Oficial de ECFs Válidas.</a>
+        </div>
+    </div>
+    <div>
+        <h1>Listagem de ECF's Válidas</h1>
+    </div>
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -13,8 +36,7 @@
         </div>
     @endif
     <div>
-        {{-- {{ $ecfs }} --}}
-        <table class="table" rules="all" border="1">
+        <table class="table" id="table" rules="all" border="1">
             <thead>
                 <tr>
                     <th scope="col" style="text-align: center">Marca da ECF</th>
@@ -30,4 +52,5 @@
                 @endforeach
             </tbody>
         </table>
-    @endsection
+    </div>
+@endsection

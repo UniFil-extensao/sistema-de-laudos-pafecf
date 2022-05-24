@@ -66,5 +66,5 @@ Route::get('get/file', function(){
 
 //Rotas ECFs
 Route::resource('ecfs', 'ECFsController');
-Route::post('ecfs/create', 'ECFsController@store');
-Route::post('ecfs/{ecf}/destroy', 'ECFsController@destroy')->name('ecf.destroy');
+/* Route::post('ecfs/create', 'ECFsController@store');
+Route::post('ecfs/{ecf}/destroy', 'ECFsController@destroy')->name('ecf.destroy'); */

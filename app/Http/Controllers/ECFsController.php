@@ -12,8 +12,9 @@ use App\Models\Modelo;
 /**
  * Classe de controle das ECFs
  * @author Leonardo Lima
- * @version 1.0
- * @copyright NPI © 2021, Núcleo de Práticas em Informática LTDA.
+ * @author Pedro Fernando Dalbello Rocha
+ * @version 2.0
+ * @copyright NPI © 2022, Núcleo de Práticas em Informática LTDA.
  * @access public
  */
 class ECFsController extends Controller
@@ -28,34 +29,24 @@ class ECFsController extends Controller
     }
 
     /**
-     * Função responsável por chamar a view inicial do cadastro de ECF.
-     * Mostra também o formulário de cadastro de ECFs.
+     * Função responsável por chamar a view de ECFs cadastradas.
      * @return view - * Mostra todas as ECF's cadastradas numa listagem.
      */
-    public function index(){
+    public function index()
+    {
         $ecfsExistentes = Modelo::all();
         return view('ecfs.index', ['ecfs'=>$ecfsExistentes]);
     }
 
-    /**
-     * Função responsável por escrever as informações cadastradas no banco de dados.
-     * @param \Requests\StoreECFRequest $request - Objeto com todas as informações preenchidas no formulário. Os campos são validados pela classe StoreECFRequest.
-     * @return view - Volta para a mesma página inicial com uma mensagem de êxito do cadastro efetuado.
-     */
-    public function store(StoreECFRequest $request){
-        $ecf = new Ecfs;
-        $ecfsExistentes = Ecfs::all();
-        foreach ($ecfsExistentes as $ecfAtual) {
-            if ($ecfAtual->marca == $request->marca &&
-                $ecfAtual->modelo == $request->modelo) {
-                    return redirect('/ecfs')->with('msgerro', 'ECF já Cadastrada Anteriormente!!');
-            }
+    public function filter()
+    {
+
+        if(isset($_POST['buscarEcf'])){
+            $search = $_POST['buscarEcf'];
         }
-        $ecf->marca = $request->marca;
-        $ecf->modelo = $request->modelo;
 
-        $ecf->save();
-        return redirect('/ecfs')->with('msg', 'ECF cadastrada com Sucesso!!');
+        $filter = Modelo::where('nome','LIKE',"%{$search}%")->get();
+        return view('ecfs.index', ['ecfs'=>$filter]);
+        /* dd($filter); */
     }
-
 }

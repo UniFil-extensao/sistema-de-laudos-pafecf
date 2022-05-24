@@ -35,7 +35,7 @@
 <br>
 <footer>
     <div class="text-center">
-        ©2021 Copyright By Leonardo Lima <br>
+        ©2021 Copyright By Leonardo Lima e Pedro Rocha <br>
         From NPI - Núcleo de Práticas em Informática <br>
         Centro Universitário Filadélfia - UNIFIL
     </div>

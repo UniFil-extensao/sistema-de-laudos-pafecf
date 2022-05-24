@@ -20,9 +20,7 @@ class Marca extends Model
 
     protected $guarded = [];
 
-    public $fillable = [
-        'nome'
-    ];
+    public $fillable = [ 'nome' ];
 
     public function modelos()
     {
