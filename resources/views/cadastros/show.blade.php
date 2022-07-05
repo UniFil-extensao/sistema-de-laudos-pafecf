@@ -6,8 +6,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <a href="/cadastros" class="btn btn-default">Lista de Empresas Cadastradas</a>
-    <h1>Editar Cadastro</h1>
-    <small>Os campos obrigatórios estão representados com um asterisco (*).</small>
+    <h1 style="color: #636b6f;">Editar Cadastro</h1>
+    <small style="color: #636b6f;">Os campos obrigatórios estão representados com um asterisco (*).</small>
     <br>
     <style type="text/css">
         #botaoExcluir {
@@ -55,7 +55,7 @@
         </button>
     </form>
     <a href="/cadastros/{{ $empresa->id }}/PDV">
-        <button type="submit">
+        <button type="submit" class="btn btn-default">
             Cadastro de PDV
         </button>
     </a>
@@ -69,17 +69,17 @@
         </div>
     @endif
     <br>
-    <h3><b>{{ $empresa->razao_social }}</b></h3>
+    <h3 style="color: #636b6f;"><b>{{ $empresa->razao_social }}</b></h3>
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#base" role="tab">Informações Básicas</a>
+            <a class="nav-link active" data-toggle="tab" href="#base" role="tab"><b>Informações Básicas</b></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#enderecos" role="tab">Endereço</a>
+            <a class="nav-link" data-toggle="tab" href="#enderecos" role="tab"><b>Endereço</b></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#representante" role="tab">Informações do
-                Representante</a>
+            <a class="nav-link" data-toggle="tab" href="#representante" role="tab"><b>Informações do
+                Representante</b></a>
         </li>
     </ul>
     <br>

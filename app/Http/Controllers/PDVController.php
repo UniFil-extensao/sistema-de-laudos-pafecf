@@ -115,9 +115,6 @@ class PDVController extends Controller
             $pdv->integracao_paf == $request->input('integracao_paf') &&
 
             $pdv->aplicacoes_especiais == $request->aplicacoes_especiais &&
-            $pdv->executavel_sgbd == $request->input('executavel_sgbd') &&
-            $pdv->executavel_sped == $request->input('executavel_sped') &&
-            $pdv->executavel_nfe == $request->input('executavel_nfe') &&
             $pdv->forma_impressao == $request->forma_impressao &&
             $pdv->perfis == $request->perfis
         )
@@ -138,9 +135,6 @@ class PDVController extends Controller
             $pdv->tratamento_interrupcao = $request->input('tratamento_interrupcao');
             $pdv->integracao_paf = $request->input('integracao_paf');
             $pdv->aplicacoes_especiais = $request->aplicacoes_especiais;
-            $pdv->executavel_sgbd = $request->input('executavel_sgbd');
-            $pdv->executavel_sped = $request->input('executavel_sped');
-            $pdv->executavel_nfe = $request->input('executavel_nfe');
             $pdv->forma_impressao = $request->forma_impressao;
             $pdv->perfis = $request->perfis;
 

@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>{{ $title }}</h1>
+    <h1 style="color: #f97316">{{ $title }}</h1>
     <div class="title-body col-md-9">
         <h2 style="color: black; font-weight: bold">Programa Aplicativo Fiscal - Unifil</h2>
-        <font size="3">
+        <font size="3" style="color: #636b6f">
             <p>O Programa Aplicativo Fiscal do Emissor de Cupom Fiscal, mais conhecido pela sigla PAF-ECF, é um programa do
                 Governo Federal que tem como objetivo aumentar a fiscalização contra desvios fiscais, como sonegação de
                 impostos e prática de caixa dois.</p>
@@ -16,7 +16,7 @@
         <br>
         </font>
         <h2 style="color: black; font-weight: bold">Como funciona?</h2>
-        <font size="3">
+        <font size="3" style="color: #636b6f">
             <p>O programa define que, todo sistema de informação que utilize ECF, deve ser certificado por uma instituição
                 credenciada, recebendo uma assinatura eletrônica única que o identifica e autoriza a se comunicar com o
                 equipamento.</p>
@@ -46,12 +46,12 @@
         </font>
         <br>
         <h2 style="color: black; font-weight: bold">Empresas Homologadas</h2>
-        <font size="3">
+        <font size="3" style="color: #636b6f;">
             <p>"lista de empresas de todos os anos"</p>
         </font>
         <br>
         <h2 style="color: black; font-weight: bold">Atendimento</h2>
-        <font size="3">
+        <font size="3" style="color: #636b6f">
             <body>
                 De segunda a sexta-feira, das 08h às 17h30 <br />
                 Av. Juscelino Kubitschek, nº 1626, Vila Ipiranga, Londrina – PR (Campus Sede)<br />

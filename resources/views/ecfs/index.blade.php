@@ -23,7 +23,7 @@
         </div>
     </div>
     <div>
-        <h1>Listagem de ECF's Válidas</h1>
+        <h1 style="color: #636b6f;">Listagem de ECF's Válidas</h1>
     </div>
 
     @if ($errors->any())
@@ -36,16 +36,16 @@
         </div>
     @endif
     <div>
-        <table class="table" id="table" rules="all" border="1">
+        <table class="table" id="table" rules="all" border="1" style="background-color: white">
             <thead>
-                <tr>
+                <tr style="color: #636b6f;">
                     <th scope="col" style="text-align: center">Marca da ECF</th>
                     <th scope="col" style="text-align: center">Modelo da ECF</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($ecfs as $ecf)
-                    <tr>
+                    <tr style="color: #636b6f;">
                         <td scope="col" style="text-align: center">{{ $ecf->marca->nome }}</td>
                         <td scope="col" style="text-align: center">{{ $ecf->nome }}</td>
                     </tr>

@@ -31,9 +31,6 @@ class CreatePdvsTable extends Migration
             $table->string('tratamento_interrupcao');
             $table->string('integracao_paf');
             $table->longText('aplicacoes_especiais');
-            $table->string('executavel_sgbd');
-            $table->string('executavel_sped');
-            $table->string('executavel_nfe');
             $table->longText('forma_impressao');
             $table->longText('perfis');
             $table->boolean('validacao');

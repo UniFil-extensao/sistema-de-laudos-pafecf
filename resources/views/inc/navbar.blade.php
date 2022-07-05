@@ -6,7 +6,7 @@
 
 </style>
 <nav class="navbar navbar-inverse">
-    <div class="container">
+    <div class="container" style="margin-bottom: 10px">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
                 aria-expanded="false" aria-controls="navbar">
@@ -14,7 +14,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/home">PAF-ECF</a>
+            <a class="navbar-brand" href="/home"><img id="logo" src="{{url('img\logo.svg')}}"></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             @guest

@@ -47,17 +47,17 @@
         @csrf
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#base" role="tab">Informações Basicas</a>
+                <a class="nav-link active" data-toggle="tab" href="#base" role="tab"><b>Informações Basicas</b></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#homologacao" role="tab">Arquivos da Homologação</a>
+                <a class="nav-link" data-toggle="tab" href="#homologacao" role="tab"><b>Arquivos da Homologação</b></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#identificacao" role="tab">Identificação dos
-                    Executáveis</a>
+                <a class="nav-link" data-toggle="tab" href="#identificacao" role="tab"><b>Identificação dos
+                    Executáveis</b></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#relatorio" role="tab">Relatório Final</a>
+                <a class="nav-link" data-toggle="tab" href="#relatorio" role="tab"><b>Relatório Final</b></a>
             </li>
         </ul>
         <script type="text/javascript">
@@ -101,7 +101,7 @@
                     <a class="btn btn-primary proximo pull-right">Próximo</a>
                 </div>
                 <div class="form-group control-label col-md-3">
-                    <label for="data_inicio">Data e Hora de Início do Serviço</label>
+                    <label for="data_inicio">Data de Início do Serviço</label>
                     <input id="data_inicio" type="date" class="form-control" name="data_inicio" required
                         onkeydown="return false" value="{{ $laudo->data_inicio }}" />
                     @error('data_inicio')
@@ -111,7 +111,7 @@
                     @enderror
                 </div>
                 <div class="form-group control-label col-md-3">
-                    <label for="data_termino">Data e Hora de Término do Serviço</label>
+                    <label for="data_termino">Data de Término do Serviço</label>
                     <input id="data_termino" type="date" class="form-control" name="data_termino" required
                         onkeydown="return false" value="{{ $laudo->data_termino }}" />
                     @error('data_termino')
@@ -338,10 +338,10 @@
                     <select id="relacao_ecfs" name="relacao_ecfs[]" multiple="">
                         <option value="" disabled selected>Escolha as ECFS</option>
                         @foreach ($relacao_ecfs as $ecf)
-                            <option 
-                            @if (str_contains($ecfs_selecionadas, $ecf->modelo)) 
+                            <option
+                            @if (str_contains($ecfs_selecionadas, $ecf->modelo))
                                 selected
-                            @endif 
+                            @endif
                             value[]="{{$ecf->id}}">{{$ecf->marca}} - {{$ecf->modelo}}</option>
                         @endforeach
                     </select>

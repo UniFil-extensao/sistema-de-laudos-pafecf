@@ -23,14 +23,14 @@
             <br>
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#base" role="tab">Informações Básicas</a>
+                    <a class="nav-link active" data-toggle="tab" href="#base" role="tab"><b>Informações Básicas</b></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#enderecos" role="tab">Endereço</a>
+                    <a class="nav-link" data-toggle="tab" href="#enderecos" role="tab"><b>Endereço</b></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" href="#representante" role="tab">Informações do
-                        Representante</a>
+                    <a class="nav-link" data-toggle="tab" href="#representante" role="tab"><b>Informações do
+                        Representante</b></a>
                 </li>
             </ul>
             <script type="text/javascript">

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Empresas Cadastradas</h1>
+    <h1 style="color:#636b6f;">Empresas Cadastradas</h1>
     <form action="/cadastros" method="GET">
-        <label for="buscar">Buscar Empresa</label>
+        <label for="buscar" style="color:#636b6f">Buscar Empresa</label>
         <div class="form-group col-md-9 input-group">
             <input type="text" id="buscar" class="col-md-10" name="buscar"
                 placeholder="Digite a Razão Social da empresa...">
@@ -26,7 +26,7 @@
                     <br>
                     <br>
                     <a href="/cadastros/{{ $empresa->id }}">
-                        <button type="submit">
+                        <button type="submit" class="btn btn-default">
                             Editar Cadastro
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
                                 class="bi bi-pencil-fill" viewBox="0 0 16 16" style="color: black">
@@ -36,7 +36,7 @@
                         </button>
                     </a>
                     <a href="/cadastros/{{ $empresa->id }}/PDV">
-                        <button type="submit">
+                        <button type="submit" class="btn btn-default">
                             Cadastro de PDV
                         </button>
                     </a>
@@ -59,7 +59,7 @@
                     <br>
                     <br>
                     <a href="/cadastros/{{ $empresa->id }}">
-                        <button type="submit">
+                        <button type="submit" class="btn btn-default">
                             Editar Cadastro
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
                                 class="bi bi-pencil-fill" viewBox="0 0 16 16" style="color: black">
@@ -69,7 +69,7 @@
                         </button>
                     </a>
                     <a href="/cadastros/{{ $empresa->id }}/PDV">
-                        <button type="submit">
+                        <button type="submit" class="btn btn-default">
                             Cadastro de PDV
                         </button>
                     </a>

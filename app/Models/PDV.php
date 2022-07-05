@@ -19,12 +19,12 @@ class PDV extends Model
      * Valores das varíaveis/campos do banco de dados sempre tem que estar declarados como fillable.
      */
     protected $table = "pdvs";
-    protected $fillable = ['id_empresa', 'nome_comercial', 
-    'versao', 'nome_principal_executavel', 'linguagem', 
+    protected $fillable = ['id_empresa', 'nome_comercial',
+    'versao', 'nome_principal_executavel', 'linguagem',
     'sistema_operacional', 'data_base', 'tipo_desenvolvimento',
-    'tipo_funcionamento', 'nfe', 'sped', 'nfce', 
-    'tratamento_interrupcao', 'integracao_paf', 
-    'aplicacoes_especiais', 'executavel_sgbd', 'executavel_sped', 'executavel_nfe', 
+    'tipo_funcionamento', 'nfe', 'sped', 'nfce',
+    'tratamento_interrupcao', 'integracao_paf',
+    'aplicacoes_especiais',
     'forma_impressao', 'perfis'];
 
     /**
@@ -44,19 +44,16 @@ class PDV extends Model
     {
         return $this->belongsTo(Laudo::class, "id_pdv", "id");
     }
-    
+
     /**
      * Função responsável por receber o array de entradas da checkbox
      *  e transformar num longText antes de passar para o controller.
      * @param $value - objeto contendo os arrays a serem trasnformados antes de passagem para o controller.
      * @return void
-     */    
+     */
     public function setCategoryAttribute($value)
     {
         $this->attributes['aplicacoes_especiais'] = json_encode($value);
-        $this->attributes['executavel_sgbd'] = json_encode($value);
-        $this->attributes['executavel_sped'] = json_encode($value);
-        $this->attributes['executavel_nfe'] = json_encode($value);
         $this->attributes['forma_impressao'] = json_encode($value);
         $this->attributes['perfis'] = json_encode($value);
     }
@@ -66,13 +63,10 @@ class PDV extends Model
      *  e transformar num longText antes de passar para o controller.
      * @param $value - objeto contendo os arrays a serem trasnformados antes de passagem para o controller.
      * @return void
-     */    
+     */
     public function getCategoryAttribute($value)
     {
         return $this->attributes['aplicacoes_especiais'] = json_decode($value);
-        return $this->attributes['executavel_sgbd'] = json_decode($value);
-        return $this->attributes['executavel_sped'] = json_decode($value);
-        return $this->attributes['executavel_nfe'] = json_decode($value);
         return $this->attributes['forma_impressao'] = json_decode($value);
         return $this->attributes['perfis'] = json_decode($value);
     }
