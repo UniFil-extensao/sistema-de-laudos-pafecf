@@ -364,7 +364,7 @@
                         <input type="radio" id="em_conformidade" name="parecer_conclusivo" value="1" @if ($laudo->parecer_conclusivo == 1) checked
 
                         @endif>
-                        <label for="em_conformidade">Não se constatou “Não Conformidade” em nenhum dos testes aplicados. O
+                        <label for="em_conformidade">Não constatou “Não Conformidade” em nenhum dos testes aplicados. O
                             sistema
                             passou em todas as especificações e testes.
                         </label>

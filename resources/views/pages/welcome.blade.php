@@ -2,6 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
     <head>
+        <title>PAF-ECF</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -12,8 +13,8 @@
         <style>
             html,
             body {
-                background-color: #fff;
-                color: #636b6f;
+                background-color: #ddd;
+                color: black;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
                 height: 100vh;
@@ -27,8 +28,8 @@
                 height: auto;
                 min-height: 100%;
                 padding: 50px 60px 60px;
-                color: #757575;
-                background: #fff;
+                color: black;
+                background: #ddd;
             }
 
             * {
@@ -42,7 +43,7 @@
             }
 
             .page-dark.layout-full {
-                color: #fff;
+                color: #ddd;
             }
 
             body {
@@ -53,7 +54,7 @@
                 font-size: 14px;
                 line-height: 1.57142857;
                 color: black;
-                background-color: #ffedd5;
+                background-color: #ddd;
             }
 
             html {
@@ -62,7 +63,7 @@
             }
 
             html {
-                font-family: sans-serif;
+                font-family: 'Nunito', sans-serif;
                 -webkit-text-size-adjust: 100%;
                 -ms-text-size-adjust: 100%;
             }
@@ -87,7 +88,6 @@
 
             .flex-center {
                 align-items: center;
-                display: flex;
                 justify-content: center;
             }
 
@@ -96,9 +96,13 @@
             }
 
             .top-right {
-                position: absolute;
+                background-color: #ff8f00;
+                text-align: right;
+                min-height: 72px;
+                margin-bottom: 22px;
                 right: 10px;
                 top: 18px;
+                border: 1px solid #ff8f00;
             }
 
             .content {
@@ -109,18 +113,41 @@
                 font-size: 84px;
             }
 
-            .links > a {
-                color: black;
-                padding: 0 25px;
-                font-size: 14px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
             .m-b-md {
                 margin-bottom: 30px;
+            }
+
+            .home {
+                margin: 25px 50px 0px 0px;
+            }
+
+            .home > a {
+                color: white;
+                font-family: 'Nunito', sans-serif;
+                font-size: 16px;
+                letter-spacing: .1rem;
+                text-decoration: none;
+
+            }
+
+            .enter > a {
+                color: white;
+                font-family: 'Nunito', sans-serif;
+                font-size: 14px;
+                letter-spacing: .1rem;
+                text-decoration: none;
+            }
+
+            .enter {
+                display: inline-flex;
+                justify-content: flex-end;
+                margin: 25px 50px 0px 0px;
+            }
+
+            #pafecf {
+                height: 250px;
+                width: 275px;
+                margin-right: 30px;
             }
 
         </style>
@@ -131,12 +158,17 @@
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Logar</a>
-
+                            <div class="home">
+                                <a href="{{ url('/home') }}">Home</a>
+                            </div>
+                        @else
+                            <div class="enter">
+                                <a href="{{ route('login') }}">Logar</a>
+                            </div>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Registrar</a>
+                            <div class="enter">
+                                <a href="{{ route('register') }}">Registrar</a>
+                            </div>
                         @endif
                     @endauth
                 </div>
@@ -146,6 +178,7 @@
                 <div class="title m-b-md">
                     PAF-ECF UNIFIL
                 </div>
+                <img style="" id="pafecf" src="{{url('img\logoPAFECFUNIFIL.png')}}">
             </div>
         </div>
     </body>

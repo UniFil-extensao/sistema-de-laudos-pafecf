@@ -306,23 +306,14 @@
                             {{ $message }}
                         </div>
                     @enderror
-                    <select name="ecf_analise_marca" id="ecf_analise_marca">
+                    <select name="ecf_analise_marca" id="ecf_analise_marca" required>
                         <option selected value="">Selecione uma Marca</option>
-                        @foreach ($ecfs as $ecf)
-                            <option value="{{ $ecf->marca }}">{{ $ecf->marca }}</option>
+                        @foreach ($marcas as $marca)
+                            <option value="{{ $marca->id }}">{{ $marca->nome }}</option>
                         @endforeach
                     </select>
                 </div>
-                <script>
-                    $(document).ready(function() {
-                        $("#ecf_analise_marca").change(function() {
-                            let marca = this.value;
-                            $.get('/getModelosStore?ecf_analise_marca=' + marca, function(data) {
-                                $("#ecf_analise_modelo").html(data);
-                            })
-                        })
-                    })
-                </script>
+
                 <div class="form-group control-label col-md-6">
                     <label for="ecf_analise_modelo">Modelo</label>
                     @error('ecf_analise_modelo')
@@ -330,10 +321,25 @@
                             {{ $message }}
                         </div>
                     @enderror
-                    <select name="ecf_analise_modelo" id="ecf_analise_modelo">
-                        <option selected>Selecione Primeiro a Marca</option>
+                    <select name="ecf_analise_modelo" id="ecf_analise_modelo" required>
+                        <option selected value="">Selecione Primeiro a Marca</option>
+                        {{-- @foreach ($modelos as $modelo)
+                            <option value="{{ $modelo->marca_id == $marca->id }}">{{ $modelo->nome }}</option>
+                        @endforeach --}}
                     </select>
                 </div>
+
+                <script>
+                    $(document).ready(function() {
+                        $("#ecf_analise_marca").change(function() {
+                            let id = this.value;
+                            $.get('/getModelosStore?ecf_analise_marca=' + id, function(data) {
+                                $("#ecf_analise_modelo").html(data);
+                            })
+                        })
+                    })
+                </script>
+
                 <div class="control-label col-md-12">
                     <label>Relação de marcas e modelos de equipamentos ECF compatíveis com o PAF-ECF: </label>
                 </div>
@@ -344,12 +350,12 @@
                             {{ $message }}
                         </div>
                     @enderror
-                    <select id="relacao_ecfs" name="relacao_ecfs[]" multiple="">
+                    {{-- <select id="relacao_ecfs" name="relacao_ecfs" multiple="">
                         <option value="" disabled selected>Escolha as ECFS</option>
                         @foreach ($relacao_ecfs as $ecf)
                             <option value[]="{{$ecf->id}}">{{$ecf->marca}} - {{$ecf->modelo}}</option>
                         @endforeach
-                    </select>
+                    </select> --}}
                 </div>
                 <div class="form-group control-label col-md-12">
                     <label for="parecer_conclusivo">Parecer conclusivo: </label>
@@ -366,7 +372,7 @@
                     </div>
                     <div>
                         <input type="radio" id="em_conformidade" name="parecer_conclusivo" value="1">
-                        <label for="em_conformidade">Não se constatou “Não Conformidade” em nenhum dos testes aplicados. O
+                        <label for="em_conformidade">Não constatou “Não Conformidade” em nenhum dos testes aplicados. O
                             sistema
                             passou em todas as especificações e testes.
                         </label>
@@ -377,10 +383,10 @@
                             deve ser preenchido com comentários caso existam inconfomidades no sistema. Favor adicionar o
                             item do requisito e o comentário referente.</small></label>
                 </div>
-                <div class="control-label col-md-4">
+                <div class="control-label col-md-4" style= "margin-top: 8px">
                     <label for="comentarios">Comentários: </label>
                     <textarea type="text" class="form-control" id="comentarios" name="comentarios"
-                        placeholder="Comentários"></textarea>
+                        placeholder="Comentários" rows="6" cols="40" maxlength="500"></textarea>
                 </div>
                 <div class="form-group control-label col-md-4">
                     <label for="responsavel_testes">Responsável da Empresa pela Execução dos Testes:</label>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Marca;
 use App\Http\Requests\StoreMarcaRequest;
 use App\Http\Requests\UpdateMarcaRequest;
+use App\Models\Ecfs;
 use App\Models\Modelo;
 
 class MarcaController extends Controller

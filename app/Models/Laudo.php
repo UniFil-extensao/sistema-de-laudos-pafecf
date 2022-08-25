@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\PDV;
+use phpDocumentor\Reflection\Types\Void_;
 
 /**
  * Classe Model do Laudo
@@ -13,7 +14,7 @@ use App\Models\PDV;
  * @access public
  */
 class Laudo extends Model
-{   
+{
     /**
      * Valores das varíaveis/campos do banco de dados sempre tem que estar declarados como fillable.
      */
@@ -24,13 +25,13 @@ class Laudo extends Model
    'numero_envelope', 'requisitos_executados_sgbd', 'executavel_sgbd',
    'funcao_sped', 'executavel_sped', 'executavel_nfe', 'parecer_conclusivo',
    'ecf_analise_marca', 'ecf_analise_modelo', 'relacao_ecfs', 'comentarios'];
-    
+
     /**
      * Função responsável por receber o array de entradas da checkbox
      *  e transformar num longText antes de passar para o controller.
      * @param $value - objeto contendo os arrays a serem trasnformados antes de passagem para o controller.
      * @return void
-     */   
+     */
     public function setCategoryAttribute($value)
     {
         $this->attributes['relacao_ecfs'] = json_encode($value);
@@ -50,9 +51,16 @@ class Laudo extends Model
      *  e transformar num longText antes de passar para o controller.
      * @param $value - objeto contendo os arrays a serem transformados antes de passagem para o controller.
      * @return void
-     */  
-    public function getCategoryAttribute($value)
+     */
+
+    /*public function getCategoryAttribute($value)
     {
         return $this->attributes['relacao_ecfs'] = json_decode($value);
+    }*/
+
+    public function ecfsMarcas()
+    {
+        $teste =  $this->hasMany(Modelo::class, "marca_id", "id");
+        //dd($teste);
     }
 }

@@ -6,6 +6,8 @@ use App\Models\Laudo;
 use App\Models\Empresa;
 use App\Models\PDV;
 use App\Models\Ecfs;
+use App\Models\Marca;
+use App\Models\Modelo;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreLaudoRequest;
@@ -21,7 +23,7 @@ use PhpOffice\PhpWord\TemplateProcessor;
  * @access public
  */
 class LaudoController extends Controller
-{   
+{
     /**
      * Função responsável por limitar as funções dessa classe somente para usuários logados.
      * @return void
@@ -55,12 +57,11 @@ class LaudoController extends Controller
      */
     public function create()
     {
-        $ecfs = DB::table('ecfs')
-            ->select('marca')->distinct()->get();
-        $relacao_ecfs = Ecfs::all();
+        $marcas = Marca::all();
+        $modelos = Modelo::all();
         $empresas = Empresa::where('validacao', true)->orderBy('id', 'desc')->get();
         $pdvs = PDV::where('validacao', true)->orderBy('id', 'desc')->get();
-        return view('laudo.create', ['empresas' => $empresas, 'pdvs' => $pdvs, 'ecfs' => $ecfs, 'relacao_ecfs' => $relacao_ecfs]);
+        return view('laudo.create', ['empresas' => $empresas, 'pdvs' => $pdvs, 'marcas' => $marcas, 'modelos' => $modelos]);
     }
 
     /**
@@ -132,7 +133,6 @@ class LaudoController extends Controller
         $laudo->parecer_conclusivo = $request->parecer_conclusivo;
         $laudo->ecf_analise_marca = $request->ecf_analise_marca;
         $laudo->ecf_analise_modelo = $ecf->modelo;
-        //$laudo->relacao_ecfs = implode(", ", $request->relacao_ecfs);
         $laudo->relacao_ecfs = implode(", ", $request->input('relacao_ecfs'));
         $laudo->comentarios = $request->comentarios;
         $laudo->responsavel_testes = $request->responsavel_testes;
@@ -141,7 +141,7 @@ class LaudoController extends Controller
 
         return redirect('/laudo')->with('msg', 'Laudo Cadastrado com Sucesso!!');
     }
-    
+
     /**
      * Função responsável por puxar do banco de dados todos os PDVs da empresa selecionada e
      * preencher as <option> do <select> na view.
@@ -170,14 +170,15 @@ class LaudoController extends Controller
     public function getModelosStore()
     {
         $marca = request('ecf_analise_marca');
-        $ecfs = Ecfs::where([
-            ['marca', 'LIKE', $marca]
-        ])->get();
+        // $marca_model = Marca::where([['nome', 'LIKE', $marca->nome]])->get()->first()->orderBy('nome');
+        // $modelos = Modelo::where([['marca_id', '=', $marca_model->id]])->get();
+        $modelos = Modelo::where([['marca_id', $marca]])->get();
 
         $option = "<option value=''>Selecione um Modelo</option>";
-        foreach ($ecfs as $ecf) {
-            $option .= '<option value="' . $ecf->id . '">' . $ecf->modelo . '</option>';
+        foreach ($modelos as $modelo) {
+            $option .= '<option value="' . $modelo->id . '">' . $modelo->nome . '</option>';
         }
+
         return $option;
     }
 
@@ -189,15 +190,13 @@ class LaudoController extends Controller
      */
     public function getModelosUpdate()
     {
-        $marca = request('ecf_analise_marca');
-        $ecfs = Ecfs::where([
-            ['marca', 'LIKE', $marca]
-        ])->get();
+        $marcas = Marca::all();
 
         $option = "<option value=''>Selecione um Modelo</option>";
-        foreach ($ecfs as $ecf) {
-            $option .= '<option value="' . $ecf->modelo . '">' . $ecf->modelo . '</option>';
+        foreach ($marcas as $marca) {
+            $option .= '<option value="' . $marca->id . '">' . $marca->nome . '</option>';
         }
+
         return $option;
     }
 
@@ -214,7 +213,7 @@ class LaudoController extends Controller
             ->format('Y-m-d');
         $laudo->data_termino = \Carbon\Carbon::createFromFormat('d/m/Y', $laudo->data_termino)
             ->format('Y-m-d');
-        $relacao_ecfs = Ecfs::all();
+        $relacao_ecfs = Modelo::all();
         $ecfs_selecionadas = $laudo->relacao_ecfs;
         return view('laudo.show', ['laudo' => $laudo, 'ecfs' => $ecfs, 'relacao_ecfs' => $relacao_ecfs, 'ecfs_selecionadas' => $ecfs_selecionadas]);
     }
