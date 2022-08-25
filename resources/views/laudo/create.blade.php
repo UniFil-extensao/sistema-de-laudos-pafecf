@@ -266,11 +266,6 @@
                         <select name="executavel_sped" id="executavel_sped" required>
                             <option selected>Selecione o Executável</option>
                         </select>
-                    <!-- <div>
-                        <label for="executavel_sped"></label>
-                        <input type="hidden" name="executavel_sped" id="executavel_sped">
-                        <input type="file" accept=".exe">
-                    </div> -->
                 </div>
                 <div class="control-label col-md-12">
                     <label>Identificação dos Sistemas de PED que geram a NF-e e funcionam integrados ao PAF-ECF: </label>
@@ -323,9 +318,6 @@
                     @enderror
                     <select name="ecf_analise_modelo" id="ecf_analise_modelo" required>
                         <option selected value="">Selecione Primeiro a Marca</option>
-                        {{-- @foreach ($modelos as $modelo)
-                            <option value="{{ $modelo->marca_id == $marca->id }}">{{ $modelo->nome }}</option>
-                        @endforeach --}}
                     </select>
                 </div>
 
@@ -350,12 +342,12 @@
                             {{ $message }}
                         </div>
                     @enderror
-                    {{-- <select id="relacao_ecfs" name="relacao_ecfs" multiple="">
+                    <select id="relacao_ecfs" name="relacao_ecfs" multiple="">
                         <option value="" disabled selected>Escolha as ECFS</option>
                         @foreach ($relacao_ecfs as $ecf)
-                            <option value[]="{{$ecf->id}}">{{$ecf->marca}} - {{$ecf->modelo}}</option>
+                            <option value="{{$ecf->id}}">{{$ecf->marca}} - {{$ecf->modelo}}</option>
                         @endforeach
-                    </select> --}}
+                    </select>
                 </div>
                 <div class="form-group control-label col-md-12">
                     <label for="parecer_conclusivo">Parecer conclusivo: </label>
