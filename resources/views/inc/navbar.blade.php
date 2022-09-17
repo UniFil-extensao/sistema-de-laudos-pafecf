@@ -3,7 +3,6 @@
         position: absolute;
         right: 50px;
     }
-
 </style>
 <nav class="navbar navbar-inverse">
     <div class="container" style="margin-bottom: 10px">
@@ -14,7 +13,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/home"><img id="logo" src="{{url('img\logo.svg')}}"></a>
+            <a class="navbar-brand" href="/home"><img id="logo" src="{{ url('img\logo.svg') }}"></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             @guest
@@ -33,6 +32,7 @@
                     <li><a href="/cadastros">Empresas</a></li>
                     <li><a href="/ecfs">Listagem de ECFs</a></li>
                     <li><a href="/laudo">Laudos</a></li>
+                    <li><a href="/calendario">Calendário</a></li>
                 </ul>
                 <ul class="nav navbar-nav top-right">
                     <li><a href="/profile/show">Editar Perfil</a></li>
