@@ -60,9 +60,16 @@ Route::post('/carregarArquivos', 'LaudoController@carregarArquivos')->name('laud
 Route::post('/laudo/{laudo}/destroy', 'LaudoController@destroy')->name('laudo.destroy');
 Route::get('laudo/{laudo}/gerarDocumentos', 'LaudoController@viewGerarDocs')->name('laudo.gerarDocumentos');
 Route::get('/gerarLaudo/{laudo}', 'LaudoController@gerarLaudo')->name('laudo.gerarLaudo');
-Route::get('get/file', function(){
+Route::get('get/file', function () {
     return Storage::download('path to file');
 });
 
 //Rotas ECFs
 Route::resource('ecfs', 'ECFsController');
+
+//Rotas Calendário
+Route::get('/calendario', 'FullCalendarController@index')->name('index'); //renderiza o calendario
+Route::get('/load-events', 'EventController@loadEvents')->name('routeLoadEvents'); //renderiza os eventos
+Route::put('/update-event', 'EventController@update')->name('routeEventUpdate'); //att os eventos - put -> update
+Route::post('/store-event', 'EventController@store')->name('routeEventStore'); //exclui os eventos
+Route::delete('/destroy-event', 'EventController@destroy')->name('routeEventDelete'); //exclui os eventos

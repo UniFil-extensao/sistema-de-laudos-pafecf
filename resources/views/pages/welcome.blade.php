@@ -48,9 +48,6 @@
 
             body {
                 font-weight: 300;
-            }
-
-            body {
                 font-size: 14px;
                 line-height: 1.57142857;
                 color: black;
@@ -60,19 +57,9 @@
             html {
                 font-size: 10px;
                 -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-            }
-
-            html {
                 font-family: 'Nunito', sans-serif;
                 -webkit-text-size-adjust: 100%;
                 -ms-text-size-adjust: 100%;
-            }
-
-            *:before,
-            *:after {
-                -webkit-box-sizing: border-box;
-                -moz-box-sizing: border-box;
-                box-sizing: border-box;
             }
 
             *:before,

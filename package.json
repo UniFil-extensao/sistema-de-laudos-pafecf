@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "bootstrap": "^5.1.1",
+        "fullcalendar": "^5.11.3",
         "sweetalert": "^2.1.2"
     }
 }

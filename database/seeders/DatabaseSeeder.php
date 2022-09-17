@@ -13,9 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
         $this->call([
             PopularMarcaModelo::class
+        ]);
+
+        $this->call([
+            EventTableSeeder::class
         ]);
     }
 }
