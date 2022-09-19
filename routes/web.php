@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\EmpresaController;
-use App\Http\Controllers\PDVController;
 use Illuminate\Support\Facades\Storage;
 
 

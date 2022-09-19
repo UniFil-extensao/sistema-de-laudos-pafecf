@@ -44,7 +44,6 @@ body {
     display: contents;
     float: right;
     width: 900px;
-    font-family: "Raleway", sans-serif;
 }
 
 .fc-button-primary {
@@ -53,8 +52,12 @@ body {
 }
 
 a {
-    color: #000;
-    font-weight: bold;
+    color: #fff;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #fff;
 }
 
 .fc-sun a {
@@ -69,7 +72,6 @@ a {
 .navbar-inverse {
     background-color: #ff8f00;
     border-color: #ff8f00;
-    font-family: "Raleway", sans-serif;
 }
 
 .navbar:after {
@@ -142,7 +144,7 @@ img {
 }
 
 .nav {
-    display: block;
+    display: -webkit-inline-box;
 }
 
 * {
@@ -205,5 +207,15 @@ img {
     .navbar-nav {
         float: left;
         margin: 0;
+        margin-top: -60px;
+        gap: 3em;
     }
+
+    .nav .navbar-nav>a {
+        color: #fff;
+    }
+}
+
+.fc-sun {
+    color: red;
 }
