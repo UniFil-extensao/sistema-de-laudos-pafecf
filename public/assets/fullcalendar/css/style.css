@@ -219,3 +219,7 @@ img {
 .fc-sun {
     color: red;
 }
+
+.fc-center:first-letter {
+    text-transform: uppercase;
+}

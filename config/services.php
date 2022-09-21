@@ -14,6 +14,18 @@ return [
     |
     */
 
+    'github' => [
+        'client_id' => env('GITHUB_CLIENT_ID'),         // Your GitHub Client ID
+        'client_secret' => env('GITHUB_CLIENT_SECRET'), // Your GitHub Client Secret
+        'redirect' => 'http://your-callback-url',
+    ],
+
+    'google' => [
+        'client_id'     => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect'      => env('GOOGLE_REDIRECT')
+    ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),

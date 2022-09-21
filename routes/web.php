@@ -71,3 +71,8 @@ Route::get('/load-events', 'EventController@loadEvents')->name('routeLoadEvents'
 Route::put('/update-event', 'EventController@update')->name('routeEventUpdate'); //att os eventos - put -> update
 Route::post('/store-event', 'EventController@store')->name('routeEventStore'); //exclui os eventos
 Route::delete('/destroy-event', 'EventController@destroy')->name('routeEventDelete'); //exclui os eventos
+
+
+//Rotas Google
+Route::get('/redirect', 'Auth\LoginController@redirectToProvider')->name('google');
+Route::get('/callback', 'Auth\LoginController@handleProviderCallback');

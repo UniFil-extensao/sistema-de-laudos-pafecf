@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             $("#modalCalendar").modal('show');
             $("#modalCalendar #titleModal").text('Alterar Evento');
-            $("#modalCalendar button.delete-event").css("display", "flex"); // aparecer somente qdo editar evento
+            $("#modalCalendar button.delete-event").css("display", "flex"); // aparecer somente quando editar evento
 
             let id = element.event.id;
             $("#modalCalendar input[name='id']").val(id);

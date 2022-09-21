@@ -2,6 +2,7 @@
 <html lang="{{ config('app.locale') }}">
 
 <head>
+    <title>PAF-ECF</title>
     <meta charset="utf-8">
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
@@ -38,10 +39,10 @@
                     <li><a href="/about">Sobre</a></li>
                     <li><a href="/services">Serviços</a></li>
                 </ul>
-                <ul class="nav navbar-nav top-right">
+                {{-- <ul class="nav navbar-nav top-right">
                     <li><a href="/login">Login</a></li>
                     <li><a href="/register">Registro</a></li>
-                </ul>
+                </ul> --}}
             @else
                 <ul class="nav navbar-nav">
                     <li><a href="/home">Home</a></li>
@@ -52,7 +53,6 @@
                     <li><a href="/calendario">Calendário</a></li>
                 </ul>
                 <ul class="nav navbar-nav top-right">
-                    <li><a href="/profile/show">Editar Perfil</a></li>
                     <li>
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sair</a>
