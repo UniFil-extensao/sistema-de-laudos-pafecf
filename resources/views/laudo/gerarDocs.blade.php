@@ -17,7 +17,8 @@
         <div class="form-group col-md-5">
             <p>Para <b>gerar os documentos</b> referentes ao laudo em questão, basta clicar no botão ao lado. O
                 <b>download</b> dos
-                arquivos será automático.</p>
+                arquivos será automático.
+            </p>
             <p><b style="color: red">Certifique-se</b> que a instância do laudo está correta para não gerar arquivos
                 indesejados.</p>
         </div>
@@ -34,12 +35,12 @@
                 botão descrito.</p>
         </div>
         <div class="form-group control-label col-md-6">
-            <label for="laudo_doc">LaudoDoc.doc</label>
+            <label for="laudo_doc">Laudo.doc</label>
             <input type="hidden" name="laudo_doc" id="laudo_doc">
-            <input type="file" accept=".doc">
+            <input type="file" accept=".docx">
         </div>
         <div class="form-group control-label col-md-6">
-            <label for="laudo_xml">Laudo XML.xml</label>
+            <label for="laudo_xml">Laudo.xml</label>
             <input type="hidden" name="laudo_xml" id="laudo_xml">
             <input type="file" accept=".xml">
         </div>
