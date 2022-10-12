@@ -13,7 +13,7 @@ use App\Http\Controllers\LaudoController;
  * Classe de controle das Empresas
  * @author Leonardo Lima
  * @version 1.0
- * @copyright NPI © 2021, Núcleo de Práticas em Informática LTDA.
+ * @copyright NPI © 2022, Núcleo de Práticas em Informática LTDA.
  * @access public
  */
 class EmpresaController extends Controller
@@ -168,7 +168,7 @@ class EmpresaController extends Controller
                 }
             }
 
-            if($laudos){
+            if ($laudos) {
                 foreach ($laudos as $laudo) {
                     $laudo->razao_social_empresa = $request->input('razao_social');
                     $laudo->save();

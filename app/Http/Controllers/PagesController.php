@@ -15,28 +15,31 @@ use Illuminate\Http\Request;
 class PagesController extends Controller
 {
 
-    public function welcome(){
+    public function welcome()
+    {
         $title = 'Welcome to Laravel!!';
-        //return view('pages.index', compact('title'));
         return view('pages.welcome')->with('title', $title);
     }
 
-    public function index(){
+    public function index()
+    {
         $title = 'Welcome to Laravel!!';
-        //return view('pages.index', compact('title'));
         return view('pages.index')->with('title', $title);
     }
 
-    public function about(){
+    public function about()
+    {
         $title = 'Sobre Nós';
         return view('pages.about')->with('title', $title);
     }
 
-    public function teste(){
+    public function teste()
+    {
         return view('pages.teste');
     }
 
-    public function services(){
+    public function services()
+    {
         $data = array(
             'title' => 'Serviços',
             'services' => ['Homologação', 'Pré-homologação', 'Consultoria']
@@ -44,9 +47,9 @@ class PagesController extends Controller
         return view('pages.services')->with($data);
     }
 
-    public function cadastro_empresas(){
+    public function cadastro_empresas()
+    {
         $title = 'Cadastro de Empresas';
         return view('pages.cadastro_empresas')->with('title', $title);
     }
-
 }

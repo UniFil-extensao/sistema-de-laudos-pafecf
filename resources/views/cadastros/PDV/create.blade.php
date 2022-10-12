@@ -21,7 +21,8 @@
         <div class="well">
             <ul>
                 @foreach ($pdvs as $pdv)
-                    <li><small><a style="color: black" href="/cadastros/PDV/{{$pdv->id}}">{{ $pdv->nome_comercial }}</a></small></li>
+                    <li><small><a style="color: black"
+                                href="/cadastros/PDV/{{ $pdv->id }}">{{ $pdv->nome_comercial }}</a></small></li>
                 @endforeach
             </ul>
         </div>
@@ -188,12 +189,14 @@
                     <label for="aplicacoes_especiais">Aplicações Especiais:</label>
 
                     <div>
-                        <input type="checkbox" id="posto_com_bomba" name="aplicacoes_especiais[]" value="posto_com_bomba">
+                        <input type="checkbox" id="posto_com_bomba" name="aplicacoes_especiais[]"
+                            value="posto_com_bomba">
                         <label for="posto_com_bomba">Posto revendedor de Combusível COM Sistema de Interligação de
                             Bombas.</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="posto_sem_bomba" name="aplicacoes_especiais[]" value="posto_sem_bomba">
+                        <input type="checkbox" id="posto_sem_bomba" name="aplicacoes_especiais[]"
+                            value="posto_sem_bomba">
                         <label for="posto_sem_bomba">Posto revendedor de Combusível SEM Sistema de Interligação de
                             Bombas.</label>
                     </div>
@@ -259,7 +262,8 @@
                         <label for="demais">Demais Atividades.</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="simples_nacional" name="aplicacoes_especiais[]" value="simples_nacional">
+                        <input type="checkbox" id="simples_nacional" name="aplicacoes_especiais[]"
+                            value="simples_nacional">
                         <label for="simples_nacional">Estabelecimento Enquadrado no SIMPLES NACIONAL (Art. 5º Ato COPETE
                             da ER-PAF-ECF).</label>
                     </div>
@@ -296,7 +300,8 @@
                         <label for="nao_concomitante_cc">Não Concomitante com controle de Conta de Cliente</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="dav_sem_impressao" name="forma_impressao[]" value="dav_sem_impressao">
+                        <input type="checkbox" id="dav_sem_impressao" name="forma_impressao[]"
+                            value="dav_sem_impressao">
                         <label for="dav_sem_impressao">DAV - Emitido sem possibilidade de Impressão</label>
                     </div>
                     <div>

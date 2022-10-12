@@ -10,7 +10,7 @@ use App\Models\Empresa;
  * Classe Model do PDV
  * @author Leonardo Lima
  * @version 1.0
- * @copyright NPI © 2021, Núcleo de Práticas em Informática LTDA.
+ * @copyright NPI © 2022, Núcleo de Práticas em Informática LTDA.
  * @access public
  */
 class PDV extends Model
@@ -19,13 +19,15 @@ class PDV extends Model
      * Valores das varíaveis/campos do banco de dados sempre tem que estar declarados como fillable.
      */
     protected $table = "pdvs";
-    protected $fillable = ['id_empresa', 'nome_comercial',
-    'versao', 'nome_principal_executavel', 'linguagem',
-    'sistema_operacional', 'data_base', 'tipo_desenvolvimento',
-    'tipo_funcionamento', 'nfe', 'sped', 'nfce',
-    'tratamento_interrupcao', 'integracao_paf',
-    'aplicacoes_especiais',
-    'forma_impressao', 'perfis'];
+    protected $fillable = [
+        'id_empresa', 'nome_comercial',
+        'versao', 'nome_principal_executavel', 'linguagem',
+        'sistema_operacional', 'data_base', 'tipo_desenvolvimento',
+        'tipo_funcionamento', 'nfe', 'sped', 'nfce',
+        'tratamento_interrupcao', 'integracao_paf',
+        'aplicacoes_especiais',
+        'forma_impressao', 'perfis'
+    ];
 
     /**
      * Função responsável por fazer o relacionamento entre a empresa e o PDV.

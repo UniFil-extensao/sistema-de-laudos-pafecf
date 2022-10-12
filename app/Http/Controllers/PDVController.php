@@ -11,7 +11,7 @@ use App\Models\Laudo;
  * Classe de controle dos PDVs.
  * @author Leonardo Lima
  * @version 1.0
- * @copyright NPI © 2021, Núcleo de Práticas em Informática LTDA.
+ * @copyright NPI © 2022, Núcleo de Práticas em Informática LTDA.
  * @access public
  */
 class PDVController extends Controller
@@ -32,7 +32,7 @@ class PDVController extends Controller
         $aplicacoes = explode(", ", $pdv->aplicacoes_especiais);
         $forma_impressao = explode(", ", $pdv->forma_impressao);
         $perfis = explode(", ", $pdv->perfis);
-        return view('cadastros.PDV.show', ['empresa' => $empresa, 'pdv'=> $pdv, 'aplicacoes' => $aplicacoes, 'forma_impressao' => $forma_impressao, 'perfis' => $perfis]);
+        return view('cadastros.PDV.show', ['empresa' => $empresa, 'pdv' => $pdv, 'aplicacoes' => $aplicacoes, 'forma_impressao' => $forma_impressao, 'perfis' => $perfis]);
     }
 
     /**
@@ -40,13 +40,14 @@ class PDVController extends Controller
      * @param $id - identificador da empresa que receberá o cadastro do PDV.
      * @return view - Formulário de cadastro de PDVs.
      */
-    public function create($id){
+    public function create($id)
+    {
         $empresa = Empresa::find($id);
         $pdvs = PDV::where([
             ['id_empresa', $id],
             ['validacao', true]
         ])->get();
-        return view('cadastros.PDV.create', ['empresa' => $empresa, 'pdvs'=> $pdvs]);
+        return view('cadastros.PDV.create', ['empresa' => $empresa, 'pdvs' => $pdvs]);
     }
 
     /**
@@ -54,7 +55,8 @@ class PDVController extends Controller
      * @param \Requests\StorePDVRequest $request - Objeto com todas as informações preenchidas no formulário. Os campos são validados pela classe StorePDVRequest.
      * @return view - Volta para a página inicial do cadastro de PDVs com uma mensagem de êxito.
      */
-    public function store(StorePDVRequest $request, $id_empresa){
+    public function store(StorePDVRequest $request, $id_empresa)
+    {
 
         $pdv = new PDV;
 
@@ -117,8 +119,7 @@ class PDVController extends Controller
             $pdv->aplicacoes_especiais == $request->aplicacoes_especiais &&
             $pdv->forma_impressao == $request->forma_impressao &&
             $pdv->perfis == $request->perfis
-        )
-        {
+        ) {
             return redirect()->back()->with('msgerro', 'Nenhum campo alterado!!');
         } else {
             $pdv->nome_comercial = $request->input('nome_comercial');
@@ -138,7 +139,7 @@ class PDVController extends Controller
             $pdv->forma_impressao = $request->forma_impressao;
             $pdv->perfis = $request->perfis;
 
-            if($laudos){
+            if ($laudos) {
                 foreach ($laudos as $laudo) {
                     $laudo->nome_comercial_pdv = $request->input('nome_comercial');
                     $laudo->save();

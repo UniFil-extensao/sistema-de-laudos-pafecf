@@ -26,7 +26,7 @@
                     <br>
                     <br>
                     <a href="/cadastros/{{ $laudo->id }}">
-                        <button type="submit">
+                        <button type="submit" style="color: black">
                             Editar Laudo
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
                                 class="bi bi-pencil-fill" viewBox="0 0 16 16" style="color: black">
@@ -35,7 +35,7 @@
                             </svg>
                         </button>
                     </a>
-                    <a href="/laudo/{{ $laudo->id }}/gerarDocumentos">
+                    <a href="/laudo/{{ $laudo->id }}/gerarDocumentos" class="btn btn-default">
                         <button type="submit">
                             Gerar Documentos
                         </button>
@@ -60,7 +60,7 @@
                     <br>
                     <br>
                     <a href="/laudo/{{ $laudo->id }}">
-                        <button type="submit">
+                        <button type="submit" class="btn btn-default">
                             Editar Laudo
                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor"
                                 class="bi bi-pencil-fill" viewBox="0 0 16 16" style="color: black">
@@ -70,7 +70,7 @@
                         </button>
                     </a>
                     <a href="/laudo/{{ $laudo->id }}/gerarDocumentos">
-                        <button type="submit">
+                        <button type="submit" class="btn btn-default">
                             Gerar Documentos
                         </button>
                     </a>

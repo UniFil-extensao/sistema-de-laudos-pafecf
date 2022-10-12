@@ -4,7 +4,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <a href="/cadastros" class="btn btn-default">Lista de Empresas Cadastradas</a>
     <h1>Cadastro de Empresas</h1>
     @if ($errors->any())
@@ -23,14 +25,15 @@
             <br>
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#base" role="tab"><b>Informações Básicas</b></a>
+                    <a class="nav-link active" data-toggle="tab" href="#base" role="tab"><b>Informações
+                            Básicas</b></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#enderecos" role="tab"><b>Endereço</b></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#representante" role="tab"><b>Informações do
-                        Representante</b></a>
+                            Representante</b></a>
                 </li>
             </ul>
             <script type="text/javascript">
@@ -125,7 +128,8 @@
                     </div>
                     <div class="form-group control-label col-md-4">
                         <label for="endereco">Endereço</label>
-                        <input type="text" class="form-control" id="endereco" name="endereco" placeholder="Endereço">
+                        <input type="text" class="form-control" id="endereco" name="endereco"
+                            placeholder="Endereço">
                         @error('endereco')
                             <div class="invalid-feedback" style="color: red">
                                 {{ $message }}

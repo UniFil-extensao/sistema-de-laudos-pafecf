@@ -8,9 +8,9 @@ use phpDocumentor\Reflection\Types\Void_;
 
 /**
  * Classe Model do Laudo
- * @author Leonardo Lima
+ * @author Leonardo Lima e Pedro Rocha
  * @version 1.0
- * @copyright NPI © 2021, Núcleo de Práticas em Informática LTDA.
+ * @copyright NPI © 2022, Núcleo de Práticas em Informática LTDA.
  * @access public
  */
 class Laudo extends Model
@@ -19,12 +19,14 @@ class Laudo extends Model
      * Valores das varíaveis/campos do banco de dados sempre tem que estar declarados como fillable.
      */
     protected $table = "laudos";
-    protected $fillable = ['razao_social_empresa',
-   'nome_comercial_pdv', 'homologador', 'data_inicio',
-   'data_termino', 'envelope_seguranca_marca', 'envelope_seguranca_modelo',
-   'numero_envelope', 'requisitos_executados_sgbd', 'executavel_sgbd',
-   'funcao_sped', 'executavel_sped', 'executavel_nfe', 'parecer_conclusivo',
-   'ecf_analise_marca', 'ecf_analise_modelo', 'relacao_ecfs', 'comentarios'];
+    protected $fillable = [
+        'razao_social_empresa',
+        'nome_comercial_pdv', 'homologador', 'data_inicio',
+        'data_termino', 'envelope_seguranca_marca', 'envelope_seguranca_modelo',
+        'numero_envelope', 'requisitos_executados_sgbd', 'executavel_sgbd',
+        'funcao_sped', 'executavel_sped', 'executavel_nfe', 'parecer_conclusivo',
+        'ecf_analise_marca', 'ecf_analise_modelo', 'relacao_ecfs_marca', 'relacao_ecfs_modelo', 'comentarios'
+    ];
 
     /**
      * Função responsável por receber o array de entradas da checkbox
@@ -43,24 +45,16 @@ class Laudo extends Model
      */
     public function pdvs()
     {
-        return $this->hasMany(PDV::class,"id_pdv", "id");
+        return $this->hasMany(PDV::class, "id_pdv", "id");
     }
 
     /**
-     * Função responsável por receber o array de entradas da checkbox
-     *  e transformar num longText antes de passar para o controller.
-     * @param $value - objeto contendo os arrays a serem transformados antes de passagem para o controller.
+     * Função responsável por receber as marcas e modelos e passar para o controller.
      * @return void
      */
-
-    /*public function getCategoryAttribute($value)
-    {
-        return $this->attributes['relacao_ecfs'] = json_decode($value);
-    }*/
 
     public function ecfsMarcas()
     {
         $teste =  $this->hasMany(Modelo::class, "marca_id", "id");
-        //dd($teste);
     }
 }

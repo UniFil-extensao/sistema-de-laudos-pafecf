@@ -38,8 +38,8 @@ class StoreLaudoRequest extends FormRequest
             'parecer_conclusivo' => 'required',
             'ecf_analise_marca' => 'required',
             'ecf_analise_modelo' => 'required',
-            'relacao_ecfs' => 'required',
+            'relacao_ecfs_marca' => 'required',
+            'relacao_ecfs_marca' => 'required'
         ];
     }
-
 }

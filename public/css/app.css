@@ -3057,18 +3057,18 @@ th {
 }
 
 .table>thead>tr>th {
-    vertical-align: bottom;
-    border-bottom: 2px solid #000000;
+    vertical-align: baseline;
+    /* border-bottom: 2px solid #000000; */
 }
 
-.table>caption+thead>tr:first-child>th,
+/* .table>caption+thead>tr:first-child>th,
 .table>caption+thead>tr:first-child>td,
 .table>colgroup+thead>tr:first-child>th,
 .table>colgroup+thead>tr:first-child>td,
 .table>thead:first-child>tr:first-child>th,
 .table>thead:first-child>tr:first-child>td {
     border-top: 1px solid #000000;
-}
+} */
 
 .table>tbody+tbody {
     border-top: 2px solid #ddd;
@@ -8288,10 +8288,31 @@ button.close {
     text-align: center;
 }
 
+#tabela_relacao_ecfs {
+    background-color: white;
+    text-align: center;
+}
+
 a.fc-day-number {
     color: #000;
 }
 
 a.fc-more {
     color: black;
+}
+
+#buttomMore {
+    margin-top: 1px;
+}
+
+#mais {
+    margin-bottom: 2px;
+}
+
+thead.headEcfs {
+    border: 2px solid;
+}
+
+#menos {
+    margin-bottom: 2px;
 }

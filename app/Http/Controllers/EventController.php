@@ -65,6 +65,3 @@ class EventController extends Controller
         return response()->json(true);
     }
 }
-
-// var_dump -> Mostra informações sobre a variável
-    //var_dump($request->all());

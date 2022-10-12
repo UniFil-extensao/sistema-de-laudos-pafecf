@@ -29,7 +29,7 @@
             });
         });
     </script>
-     <script>
+    <script>
         function validarExclusao(frm) {
             var validador = confirm("Tem certeza que deseja excluir este PDV da empresa?");
             if (validador == false) {
@@ -39,8 +39,7 @@
             }
         }
     </script>
-    <form action="{{ route('pdv.destroy', $pdv) }}" method="post"
-        onsubmit="return validarExclusao();">
+    <form action="{{ route('pdv.destroy', $pdv) }}" method="post" onsubmit="return validarExclusao();">
         @csrf
         <button type="submit" class="btn btn-danger pull-right">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-trash-fill"
@@ -143,11 +142,11 @@
                             <option selected value="comercializavel">Comercializável</option>
                             <option value="exclusivo_proprio">Exclusivo Próprio</option>
                             <option value="exclusivo_tercerizado">Exclusivo Tercerizado</option>
-                        @elseif (($pdv->tipo_desenvolvimento) == 'exclusivo_proprio')
+                        @elseif ($pdv->tipo_desenvolvimento == 'exclusivo_proprio')
                             <option selected value="exclusivo_proprio">Exclusivo Próprio</option>
                             <option value="comercializavel">Comercializável</option>
                             <option value="exclusivo_tercerizado">Exclusivo Tercerizado</option>
-                        @elseif (($pdv->tipo_desenvolvimento) == 'exclusivo_tercerizado')
+                        @elseif ($pdv->tipo_desenvolvimento == 'exclusivo_tercerizado')
                             <option selected value="exclusivo_tercerizado">Exclusivo Tercerizado</option>
                             <option value="comercializavel">Comercializável</option>
                             <option value="exclusivo_proprio">Exclusivo Próprio</option>
@@ -161,11 +160,11 @@
                             <option value="stand_alone" selected>Exclusivo Stand Alone</option>
                             <option value="rede">Em Rede</option>
                             <option value="parametrizavel">Parametrizável</option>
-                        @elseif (($pdv->tipo_funcionamento) == 'rede')
+                        @elseif ($pdv->tipo_funcionamento == 'rede')
                             <option value="stand_alone">Exclusivo Stand Alone</option>
                             <option value="rede" selected>Em Rede</option>
                             <option value="parametrizavel">Parametrizável</option>
-                        @elseif (($pdv->tipo_funcionamento) == 'parametrizavel')
+                        @elseif ($pdv->tipo_funcionamento == 'parametrizavel')
                             <option value="stand_alone">Exclusivo Stand Alone</option>
                             <option value="rede">Em Rede</option>
                             <option value="parametrizavel" selected>Parametrizável</option>
@@ -175,7 +174,7 @@
                 <div class="form-group control-label col-md-4">
                     <label for="nfe">Emite Nota Fiscal Eletrônica - NF-e:</label>
                     <select name="nfe" id="nfe">
-                        @if ($pdv->nfe == 'sim'))
+                        @if ($pdv->nfe == 'sim')
                             <option value="sim" selected>Sim</option>
                             <option value="nao">Não</option>
                         @else
@@ -191,11 +190,11 @@
                             <option value="pelo_paf" selected>Pelo PAF</option>
                             <option value="retaguarda">Pelo Sistema de Retaguarda</option>
                             <option value="ped_efd">Pelo Sistema de PED ou EFC</option>
-                        @elseif (($pdv->sped) == 'retaguarda')
+                        @elseif ($pdv->sped == 'retaguarda')
                             <option value="pelo_paf">Pelo PAF</option>
                             <option value="retaguarda" selected>Pelo Sistema de Retaguarda</option>
                             <option value="ped_efd">Pelo Sistema de PED ou EFC</option>
-                        @elseif (($pdv->sped) == 'ped_efd')
+                        @elseif ($pdv->sped == 'ped_efd')
                             <option value="pelo_paf">Pelo PAF</option>
                             <option value="retaguarda">Pelo Sistema de Retaguarda</option>
                             <option value="ped_efd" selected>Pelo Sistema de PED ou EFC</option>
@@ -205,7 +204,7 @@
                 <div class="form-group control-label col-md-5">
                     <label for="nfce">Emite Nota Fiscal Consumidor Eletrônica - NFC-e:</label>
                     <select name="nfce" id="nfce">
-                        @if ($pdv->nfce == 'sim'))
+                        @if ($pdv->nfce == 'sim')
                             <option value="sim" selected>Sim</option>
                             <option value="nao">Não</option>
                         @else
@@ -222,11 +221,11 @@
                             <option value="recupera" selected>Recuperação dos Dados</option>
                             <option value="cancela">Cancelamento Automático</option>
                             <option value="bloqueia">Bloqueio de Funções</option>
-                        @elseif (($pdv->tratamento_interrupcao) == 'cancela')
+                        @elseif ($pdv->tratamento_interrupcao == 'cancela')
                             <option value="recupera">Recuperação dos Dados</option>
                             <option value="cancela" selected>Cancelamento Automático</option>
                             <option value="bloqueia">Bloqueio de Funções</option>
-                        @elseif (($pdv->tratamento_interrupcao) == 'bloqueia')
+                        @elseif ($pdv->tratamento_interrupcao == 'bloqueia')
                             <option value="recupera">Recuperação dos Dados</option>
                             <option value="cancela">Cancelamento Automático</option>
                             <option value="bloqueia" selected>Bloqueio de Funções</option>
@@ -241,17 +240,17 @@
                             <option value="ped">Com Sistema PED</option>
                             <option value="ambos">Com Ambos</option>
                             <option value="nao_integrado">Não Integrado</option>
-                        @elseif (($pdv->integracao_paf) == 'ped')
+                        @elseif ($pdv->integracao_paf == 'ped')
                             <option value="gestao_retaguarda">Com Sistema de Gestão ou Retaguarda</option>
                             <option value="ped" selected>Com Sistema PED</option>
                             <option value="ambos">Com Ambos</option>
                             <option value="nao_integrado">Não Integrado</option>
-                        @elseif (($pdv->integracao_paf) == 'ambos')
+                        @elseif ($pdv->integracao_paf == 'ambos')
                             <option value="gestao_retaguarda">Com Sistema de Gestão ou Retaguarda</option>
                             <option value="ped">Com Sistema PED</option>
                             <option value="ambos" selected>Com Ambos</option>
                             <option value="nao_integrado">Não Integrado</option>
-                        @elseif (($pdv->integracao_paf) == 'nao_integrado')
+                        @elseif ($pdv->integracao_paf == 'nao_integrado')
                             <option value="gestao_retaguarda">Com Sistema de Gestão ou Retaguarda</option>
                             <option value="ped">Com Sistema PED</option>
                             <option value="ambos">Com Ambos</option>
@@ -269,22 +268,22 @@
                     <label for="aplicacoes_especiais">Aplicações Especiais:</label>
 
                     <div>
-                        <input type="checkbox" id="posto_com_bomba" name="aplicacoes_especiais[]" value="posto_com_bomba"
+                        <input type="checkbox" id="posto_com_bomba" name="aplicacoes_especiais[]"
+                            value="posto_com_bomba"
                             @foreach ($aplicacoes as $valor)
                         @if ($valor == 'posto_com_bomba')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="posto_com_bomba">Posto revendedor de Combusível COM Sistema de Interligação de
                             Bombas.</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="posto_sem_bomba" name="aplicacoes_especiais[]" value="posto_sem_bomba"
+                        <input type="checkbox" id="posto_sem_bomba" name="aplicacoes_especiais[]"
+                            value="posto_sem_bomba"
                             @foreach ($aplicacoes as $valor)
                         @if ($valor == 'posto_sem_bomba')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="posto_sem_bomba">Posto revendedor de Combusível SEM Sistema de Interligação de
                             Bombas.</label>
                     </div>
@@ -293,26 +292,25 @@
                             @foreach ($aplicacoes as $valor)
                         @if ($valor == 'oficina_dav_os')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="oficina_dav_os">Oficina de Conserto COM DAV-OS.</label>
                     </div>
                     <div>
                         <input type="checkbox" id="oficina_conta_cliente" name="aplicacoes_especiais[]"
-                            value="oficina_conta_cliente" @foreach ($aplicacoes as $valor)
+                            value="oficina_conta_cliente"
+                            @foreach ($aplicacoes as $valor)
                         @if ($valor == 'oficina_conta_cliente')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="oficina_conta_cliente">Oficina de Conserto COM CONTA DE CLIENTE.</label>
                     </div>
                     <div>
                         <input type="checkbox" id="bar_ecf_restaurante" name="aplicacoes_especiais[]"
-                            value="bar_ecf_restaurante" @foreach ($aplicacoes as $valor)
+                            value="bar_ecf_restaurante"
+                            @foreach ($aplicacoes as $valor)
                         @if ($valor == 'bar_ecf_restaurante')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="bar_ecf_restaurante">Bar, Restaurante e estabelecimento similiar com utilização de
                             ECF-RESTAURANTE e balança interligada.</label>
                     </div>
@@ -321,48 +319,47 @@
                             @foreach ($aplicacoes as $valor)
                         @if ($valor == 'bar_ecf_normal')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="bar_ecf_normal">Bar, Restaurante e estabelecimento similiar com utilização de
                             ECF-NORMAL
                             e balança interligada.</label>
                     </div>
                     <div>
                         <input type="checkbox" id="bar_ecf_restaurante_sem_balanca" name="aplicacoes_especiais[]"
-                            value="bar_ecf_restaurante_sem_balanca" @foreach ($aplicacoes as $valor)
+                            value="bar_ecf_restaurante_sem_balanca"
+                            @foreach ($aplicacoes as $valor)
                         @if ($valor == 'bar_ecf_restaurante_sem_balanca')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="bar_ecf_restaurante_sem_balanca">Bar, Restaurante e estabelecimento similiar com
                             utilização de ECF-RESTAURANTE SEM balança interligada.</label>
                     </div>
                     <div>
                         <input type="checkbox" id="bar_ecf_normal_sem_balanca" name="aplicacoes_especiais[]"
-                            value="bar_ecf_normal_sem_balanca" @foreach ($aplicacoes as $valor)
+                            value="bar_ecf_normal_sem_balanca"
+                            @foreach ($aplicacoes as $valor)
                         @if ($valor == 'bar_ecf_normal_sem_balanca')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="bar_ecf_normal_sem_balanca">Bar, Restaurante e estabelecimento similiar com
                             utilização
                             de ECF-NORMAL SEM balança interligada.</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="farmacia" name="aplicacoes_especiais[]" value="farmacia" @foreach ($aplicacoes as $valor)
+                        <input type="checkbox" id="farmacia" name="aplicacoes_especiais[]" value="farmacia"
+                            @foreach ($aplicacoes as $valor)
                         @if ($valor == 'farmacia')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="farmacia">Farmácia de Manipulação.</label>
                     </div>
                     <div>
                         <input type="checkbox" id="transporte_passageiros" name="aplicacoes_especiais[]"
-                            value="transporte_passageiros" @foreach ($aplicacoes as $valor)
+                            value="transporte_passageiros"
+                            @foreach ($aplicacoes as $valor)
                         @if ($valor == 'transporte_passageiros')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="transporte_passageiros">Transporte de Passageiros.</label>
                     </div>
                     <div>
@@ -370,42 +367,41 @@
                             @foreach ($aplicacoes as $valor)
                         @if ($valor == 'posto_pedagio')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="posto_pedagio">Posto de Pedágio.</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="moteis" name="aplicacoes_especiais[]" value="moteis" @foreach ($aplicacoes as $valor)
+                        <input type="checkbox" id="moteis" name="aplicacoes_especiais[]" value="moteis"
+                            @foreach ($aplicacoes as $valor)
                         @if ($valor == 'moteis')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="moteis">Estacionamento, Motéis e Similares, que pratiquem o Controle de Tráfego de
                             Veículos ou Pessoas.</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="cinema" name="aplicacoes_especiais[]" value="cinema" @foreach ($aplicacoes as $valor)
+                        <input type="checkbox" id="cinema" name="aplicacoes_especiais[]" value="cinema"
+                            @foreach ($aplicacoes as $valor)
                         @if ($valor == 'cinema')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="cinema">Prestador de Serviço de Cinema, Espetáculos ou Similares.</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="demais" name="aplicacoes_especiais[]" value="demais" @foreach ($aplicacoes as $valor)
+                        <input type="checkbox" id="demais" name="aplicacoes_especiais[]" value="demais"
+                            @foreach ($aplicacoes as $valor)
                         @if ($valor == 'demais')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="demais">Demais Atividades.</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="simples_nacional" name="aplicacoes_especiais[]" value="simples_nacional"
+                        <input type="checkbox" id="simples_nacional" name="aplicacoes_especiais[]"
+                            value="simples_nacional"
                             @foreach ($aplicacoes as $valor)
                         @if ($valor == 'simples_nacional')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="simples_nacional">Estabelecimento Enquadrado no SIMPLES NACIONAL (Art. 5º Ato COPETE
                             da
                             ER-PAF-ECF).</label>
@@ -425,11 +421,11 @@
                 <div class="form-group control-label col-md-5">
                     <label for="forma_impressao">Forma de Impressão de Item em Cupom Fiscal:</label>
                     <div>
-                        <input type="checkbox" id="concomitante" name="forma_impressao[]" value="concomitante" @foreach ($forma_impressao as $valor)
+                        <input type="checkbox" id="concomitante" name="forma_impressao[]" value="concomitante"
+                            @foreach ($forma_impressao as $valor)
                         @if ($valor == 'concomitante')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="concomitante">Concomitante</label>
                     </div>
                     <div>
@@ -437,26 +433,25 @@
                             @foreach ($forma_impressao as $valor)
                         @if ($valor == 'nao_concomitante')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="nao_concomitante">Não Concomitante com Impressão de DAV</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="nao_concomitante_pv" name="forma_impressao[]" value="nao_concomitante_pv"
+                        <input type="checkbox" id="nao_concomitante_pv" name="forma_impressao[]"
+                            value="nao_concomitante_pv"
                             @foreach ($forma_impressao as $valor)
                         @if ($valor == 'nao_concomitante_pv')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="nao_concomitante_pv">Não Concomitante com controle de Pré-venda</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="nao_concomitante_cc" name="forma_impressao[]" value="nao_concomitante_cc"
+                        <input type="checkbox" id="nao_concomitante_cc" name="forma_impressao[]"
+                            value="nao_concomitante_cc"
                             @foreach ($forma_impressao as $valor)
                         @if ($valor == 'nao_concomitante_cc')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="nao_concomitante_cc">Não Concomitante com controle de Conta de Cliente</label>
                     </div>
                     <div>
@@ -464,17 +459,16 @@
                             @foreach ($forma_impressao as $valor)
                         @if ($valor == 'dav_sem_impressao')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="dav_sem_impressao">DAV - Emitido sem possibilidade de Impressão</label>
                     </div>
                     <div>
                         <input type="checkbox" id="dav_impresso_nao_fiscal" name="forma_impressao[]"
-                            value="dav_impresso_nao_fiscal" @foreach ($forma_impressao as $valor)
+                            value="dav_impresso_nao_fiscal"
+                            @foreach ($forma_impressao as $valor)
                         @if ($valor == 'dav_impresso_nao_fiscal')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="dav_impresso_nao_fiscal">DAV - Impresso em Impressora Não Fiscal</label>
                     </div>
                     <div>
@@ -482,8 +476,7 @@
                             @foreach ($forma_impressao as $valor)
                         @if ($valor == 'dav_impresso_ecf')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="dav_impresso_ecf">DAV - Impresso em ECF</label>
                     </div>
                     @error('forma_impressao')
@@ -495,67 +488,67 @@
                 <div class="form-group control-label col-md-5">
                     <label for="perfis">Perfis:</label>
                     <div>
-                        <input type="checkbox" id="perfil_r" name="perfis[]" value="perfil_r" @foreach ($perfis as $valor)
+                        <input type="checkbox" id="perfil_r" name="perfis[]" value="perfil_r"
+                            @foreach ($perfis as $valor)
                         @if ($valor == 'perfil_r')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="perfil_r">Perfil R</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="perfil_s" name="perfis[]" value="perfil_s" @foreach ($perfis as $valor)
+                        <input type="checkbox" id="perfil_s" name="perfis[]" value="perfil_s"
+                            @foreach ($perfis as $valor)
                         @if ($valor == 'perfil_s')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="perfil_s">Perfil S</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="perfil_t" name="perfis[]" value="perfil_t" @foreach ($perfis as $valor)
+                        <input type="checkbox" id="perfil_t" name="perfis[]" value="perfil_t"
+                            @foreach ($perfis as $valor)
                         @if ($valor == 'perfil_t')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="perfil_t">Perfil T</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="perfil_u" name="perfis[]" value="perfil_u" @foreach ($perfis as $valor)
+                        <input type="checkbox" id="perfil_u" name="perfis[]" value="perfil_u"
+                            @foreach ($perfis as $valor)
                         @if ($valor == 'perfil_u')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="perfil_u">Perfil U</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="perfil_v" name="perfis[]" checked value="perfil_v" @foreach ($perfis as $valor)
+                        <input type="checkbox" id="perfil_v" name="perfis[]" checked value="perfil_v"
+                            @foreach ($perfis as $valor)
                         @if ($valor == 'perfil_v')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="perfil_v">Perfil V</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="perfil_w" name="perfis[]" value="perfil_w" @foreach ($perfis as $valor)
+                        <input type="checkbox" id="perfil_w" name="perfis[]" value="perfil_w"
+                            @foreach ($perfis as $valor)
                         @if ($valor == 'perfil_w')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="perfil_w">Perfil W</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="perfil_y" name="perfis[]" value="perfil_y" @foreach ($perfis as $valor)
+                        <input type="checkbox" id="perfil_y" name="perfis[]" value="perfil_y"
+                            @foreach ($perfis as $valor)
                         @if ($valor == 'perfil_y')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="perfil_y">Perfil Y</label>
                     </div>
                     <div>
-                        <input type="checkbox" id="perfil_z" name="perfis[]" value="perfil_z" @foreach ($perfis as $valor)
+                        <input type="checkbox" id="perfil_z" name="perfis[]" value="perfil_z"
+                            @foreach ($perfis as $valor)
                         @if ($valor == 'perfil_z')
                             checked
-                        @endif
-                        @endforeach>
+                        @endif @endforeach>
                         <label for="perfil_z">Perfil Z</label>
                     </div>
                     @error('perfis')

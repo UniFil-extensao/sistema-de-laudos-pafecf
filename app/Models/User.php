@@ -11,7 +11,7 @@ use Illuminate\Notifications\Notifiable;
  * Classe Model do Usuário
  * @author Leonardo Lima
  * @version 1.0
- * @copyright NPI © 2021, Núcleo de Práticas em Informática LTDA.
+ * @copyright NPI © 2022, Núcleo de Práticas em Informática LTDA.
  * @access public
  */
 class User extends Authenticatable

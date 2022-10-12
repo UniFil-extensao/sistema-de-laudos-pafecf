@@ -8,6 +8,8 @@ use App\Models\PDV;
 use App\Models\Ecfs;
 use App\Models\Marca;
 use App\Models\Modelo;
+use App\Models\LaudosEcfs;
+use App\Models\LaudosRelacaoEcfs;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreLaudoRequest;
@@ -17,9 +19,9 @@ use PhpOffice\PhpWord\TemplateProcessor;
 
 /**
  * Classe de controle dos Laudos
- * @author Leonardo Lima
- * @version 1.0
- * @copyright NPI © 2021, Núcleo de Práticas em Informática LTDA.
+ * @author Leonardo Lima e Pedro Rocha
+ * @version 2.0
+ * @copyright NPI © 2022, Núcleo de Práticas em Informática LTDA.
  * @access public
  */
 class LaudoController extends Controller
@@ -96,7 +98,8 @@ class LaudoController extends Controller
      */
     public function store(StoreLaudoRequest $request)
     {
-
+        //dd request all
+        // dd($request->all());
         $laudo = new Laudo;
         $pdv = PDV::find($request->pdv);
         $user = auth()->user();
@@ -110,7 +113,8 @@ class LaudoController extends Controller
             $laudo->ifl .= "IFL0" . $laudo->numero_laudo . $ano_atual;
         }
 
-        $ecf = Ecfs::find($request->ecf_analise_modelo);
+        // $ecf = Ecfs::find($request->ecf_analise_modelo);
+        // $ecf_compativel = Ecfs::find($request->relacao_ecfs_modelo);
 
         $laudo->id_pdv = $pdv->id;
         $laudo->id_empresa = $pdv->empresa->id;
@@ -130,14 +134,58 @@ class LaudoController extends Controller
         $laudo->funcao_sped = $request->funcao_sped;
         $laudo->executavel_sped = $request->executavel_sped;
         $laudo->executavel_nfe = $request->executavel_nfe;
-        $laudo->parecer_conclusivo = $request->parecer_conclusivo;
         $laudo->ecf_analise_marca = $request->ecf_analise_marca;
-        $laudo->ecf_analise_modelo = $ecf->modelo;
-        $laudo->relacao_ecfs = implode(", ", $request->input('relacao_ecfs'));
+        $laudo->ecf_analise_modelo = $request->ecf_analise_modelo;
+        $laudo->relacao_ecfs_marca = $request->relacao_ecfs_marca;
+        $laudo->relacao_ecfs_modelo = $request->relacao_ecfs_modelo;
+        $laudo->parecer_conclusivo = $request->parecer_conclusivo;
         $laudo->comentarios = $request->comentarios;
         $laudo->responsavel_testes = $request->responsavel_testes;
 
         $laudo->save();
+        //in $request for each marca in an_marca and modelo in an_modelo find id from tables marcas and modelos
+        $ecf_analise_marca = array();
+        $ecf_analise_modelo = array();
+        $relacao_ecfs_marca = array();
+        $relacao_ecfs_modelo = array();
+
+        foreach ($request->an_marca as $marca) {
+            //append to array
+            array_push($ecf_analise_marca, Marca::where('nome', $marca)->first()->id);
+        }
+
+        foreach ($request->an_modelo as $modelo) {
+            //append to array
+            array_push($ecf_analise_modelo, Modelo::where('nome', $modelo)->first()->id);
+        }
+
+        foreach ($request->re_marca as $marca) {
+            //append to array
+            array_push($relacao_ecfs_marca, Marca::where('nome', $marca)->first()->id);
+        }
+
+        foreach ($request->re_modelo as $modelo) {
+            //append to array
+            array_push($relacao_ecfs_modelo, Modelo::where('nome', $modelo)->first()->id);
+        }
+
+        //create new laudos_ecfs with arrays ecf_analise_marca and ecf_analise_modelo and laudo id
+        foreach ($ecf_analise_marca as $index => $marca) {
+            $laudo_ecf = new LaudosEcfs;
+            $laudo_ecf->laudo_id = $laudo->id;
+            $laudo_ecf->marca_id = $marca;
+            $laudo_ecf->modelo_id = $ecf_analise_modelo[$index];
+            $laudo_ecf->save();
+        }
+
+        //create new laudos_relacao_ecfs with arrays relacao_ecfs_marca and relacao_ecfs_modelo and laudo id
+        foreach ($relacao_ecfs_marca as $index => $marca) {
+            $laudo_relacao_ecf = new LaudosRelacaoEcfs;
+            $laudo_relacao_ecf->laudo_id = $laudo->id;
+            $laudo_relacao_ecf->marca_id = $marca;
+            $laudo_relacao_ecf->modelo_id = $relacao_ecfs_modelo[$index];
+            $laudo_relacao_ecf->save();
+        }
 
         return redirect('/laudo')->with('msg', 'Laudo Cadastrado com Sucesso!!');
     }
@@ -164,14 +212,51 @@ class LaudoController extends Controller
     /**
      * Função responsável por puxar do banco de dados todos os modelos de ECFs cadastrados
      * para as <option> no <select> da view responsável por selecionar o modelo da ecf utilizado na homologação.
-     * ESTE É PARA A CADASTRO DO LAUDO
+     * ESTE É PARA O CADASTRO DO LAUDO
      * @return $option
      */
     public function getModelosStore()
     {
         $marca = request('ecf_analise_marca');
-        // $marca_model = Marca::where([['nome', 'LIKE', $marca->nome]])->get()->first()->orderBy('nome');
-        // $modelos = Modelo::where([['marca_id', '=', $marca_model->id]])->get();
+        $modelos = Modelo::where([['marca_id', $marca]])->get();
+
+        $option = "<option value=''>Selecione um Modelo</option>";
+        foreach ($modelos as $modelo) {
+            $option .= '<option value="' . $modelo->id . '">' . $modelo->nome . '</option>';
+        }
+
+        return $option;
+    }
+    /**
+     * Função responsável por puxar do banco de dados todos os modelos de ECFs cadastrados
+     * para as <option> no <select> da view responsável por selecionar o modelo da ecf utilizado na homologação.
+     * ESTE É PARA O CADASTRO DO LAUDO
+     * @return $option
+     */
+    public function getModelosAnaliseStore()
+    {
+        $marca = request('relacao_ecfs_marca');
+        $modelos = Modelo::where([['marca_id', $marca]])->get();
+
+        $option = "<option value=''>Selecione um Modelo</option>";
+        foreach ($modelos as $modelo) {
+            $option .= '<option value="' . $modelo->id . '">' . $modelo->nome . '</option>';
+        }
+
+        return $option;
+    }
+
+
+
+    /**
+     * Função responsável por puxar do banco de dados todos os modelos de ECFs cadastrados
+     * para as <option> no <select> da view responsável por selecionar o modelo da ecf utilizado na homologação.
+     * ESTE É PARA A ATUALIZAÇÃO DO LAUDO
+     * @return $option
+     */
+    public function getModelosUpdate()
+    {
+        $marca = request('ecf_analise_marca');
         $modelos = Modelo::where([['marca_id', $marca]])->get();
 
         $option = "<option value=''>Selecione um Modelo</option>";
@@ -188,20 +273,21 @@ class LaudoController extends Controller
      * ESTE É PARA A ATUALIZAÇÃO DO LAUDO
      * @return $option
      */
-    public function getModelosUpdate()
+    public function getModelosAnaliseUpdate()
     {
-        $marcas = Marca::all();
+        $marca = request('relacao_ecfs_marca');
+        $modelos = Modelo::where([['marca_id', $marca]])->get();
 
         $option = "<option value=''>Selecione um Modelo</option>";
-        foreach ($marcas as $marca) {
-            $option .= '<option value="' . $marca->id . '">' . $marca->nome . '</option>';
+        foreach ($modelos as $modelo) {
+            $option .= '<option value="' . $modelo->id . '">' . $modelo->nome . '</option>';
         }
 
         return $option;
     }
 
     /**
-     * Função responsável por trazer do banco o cadastro do laudo e preencher o formulário para upload.
+     * Função responsável por trazer, do banco, o cadastro do laudo e preencher o formulário para upload.
      * @param Integer $id - identificador do laudo a ser buscado no banco de dados.
      * @return view - Formulário de cadastro do laudo com os campos preenchidos, livres para edição.
      */
@@ -213,9 +299,36 @@ class LaudoController extends Controller
             ->format('Y-m-d');
         $laudo->data_termino = \Carbon\Carbon::createFromFormat('d/m/Y', $laudo->data_termino)
             ->format('Y-m-d');
-        $relacao_ecfs = Modelo::all();
-        $ecfs_selecionadas = $laudo->relacao_ecfs;
-        return view('laudo.show', ['laudo' => $laudo, 'ecfs' => $ecfs, 'relacao_ecfs' => $relacao_ecfs, 'ecfs_selecionadas' => $ecfs_selecionadas]);
+        $ecf_analise_marca = Marca::all();
+        $ecf_analise_modelo = Modelo::all();
+        $relacao_ecfs_marca = Marca::all();
+        $relacao_ecfs_modelo = Modelo::all();
+        //get marcas and modelos used in the laudo with LaudosEcfs
+        $laudo_ecfs = LaudosEcfs::where('laudo_id', $id)->get();
+        $an_marca = [];
+        $an_modelo = [];
+        foreach ($laudo_ecfs as $laudo_ecf) {
+            $marca = Marca::find($laudo_ecf->marca_id);
+            $modelo = Modelo::find($laudo_ecf->modelo_id);
+            array_push($an_marca, $marca);
+            array_push($an_modelo, $modelo);
+        }
+
+        $laudo_ecfs = LaudosRelacaoEcfs::where('laudo_id', $id)->get();
+        $re_marca = [];
+        $re_modelo = [];
+        foreach ($laudo_ecfs as $laudo_ecf) {
+            $marca = Marca::find($laudo_ecf->marca_id);
+            $modelo = Modelo::find($laudo_ecf->modelo_id);
+            array_push($re_marca, $marca);
+            array_push($re_modelo, $modelo);
+        }
+
+        return view('laudo.show', [
+            'laudo' => $laudo, 'ecfs' => $ecfs, 'ecf_analise_marca' => $ecf_analise_marca, 'ecf_analise_modelo' => $ecf_analise_modelo,
+            'relacao_ecfs_marca' => $relacao_ecfs_marca, 'relacao_ecfs_modelo' => $relacao_ecfs_modelo,
+            'an_marca' => $an_marca, 'an_modelo' => $an_modelo, 're_marca' => $re_marca, 're_modelo' => $re_modelo
+        ]);
     }
 
     /**
@@ -243,7 +356,8 @@ class LaudoController extends Controller
             $laudo->parecer_conclusivo == $request->input('parecer_conclusivo') &&
             $laudo->ecf_analise_marca == $request->input('ecf_analise_marca') &&
             $laudo->ecf_analise_modelo == $request->input('ecf_analise_modelo') &&
-            $laudo->relacao_ecfs == implode(", ", $request->input('relacao_ecfs')) &&
+            $laudo->relacao_ecfs_marca == $request->input('relacao_ecfs_marca') &&
+            $laudo->relacao_ecfs_modelo == $request->input('relacao_ecfs_modelo') &&
             $laudo->comentarios == $request->input('comentarios') &&
             $laudo->responsavel_testes == $request->input('responsavel_testes')
         ) {
@@ -265,11 +379,60 @@ class LaudoController extends Controller
             $laudo->parecer_conclusivo = $request->input('parecer_conclusivo');
             $laudo->ecf_analise_marca = $request->input('ecf_analise_marca');
             $laudo->ecf_analise_modelo = $request->input('ecf_analise_modelo');
-            $laudo->relacao_ecfs = implode(", ", $request->input('relacao_ecfs'));
+            $laudo->relacao_ecfs_marca = $request->input('relacao_ecfs_marca');
+            $laudo->relacao_ecfs_modelo = $request->input('relacao_ecfs_modelo');
             $laudo->comentarios = $request->input('comentarios');
             $laudo->responsavel_testes = $request->input('responsavel_testes');
 
             $laudo->save();
+
+            $ecf_analise_marca = array();
+            $ecf_analise_modelo = array();
+            $relacao_ecfs_marca = array();
+            $relacao_ecfs_modelo = array();
+
+            foreach ($request->an_marca as $marca) {
+                //append to array
+                array_push($ecf_analise_marca, Marca::where('nome', $marca)->first()->id);
+            }
+
+            foreach ($request->an_modelo as $modelo) {
+                //append to array
+                array_push($ecf_analise_modelo, Modelo::where('nome', $modelo)->first()->id);
+            }
+
+            foreach ($request->re_marca as $marca) {
+                //append to array
+                array_push($relacao_ecfs_marca, Marca::where('nome', $marca)->first()->id);
+            }
+
+            foreach ($request->re_modelo as $modelo) {
+                //append to array
+                array_push($relacao_ecfs_modelo, Modelo::where('nome', $modelo)->first()->id);
+            }
+
+            //remove existing lines with laudo_id from laudo_ecf and laudo_relacao_ecf
+            LaudosEcfs::where('laudo_id', $id)->delete();
+            LaudosRelacaoEcfs::where('laudo_id', $id)->delete();
+
+            //create new laudos_ecfs with arrays ecf_analise_marca and ecf_analise_modelo and laudo id
+            foreach ($ecf_analise_marca as $index => $marca) {
+                $laudo_ecf = new LaudosEcfs;
+                $laudo_ecf->laudo_id = $laudo->id;
+                $laudo_ecf->marca_id = $marca;
+                $laudo_ecf->modelo_id = $ecf_analise_modelo[$index];
+                $laudo_ecf->save();
+            }
+
+            //create new laudos_relacao_ecfs with arrays relacao_ecfs_marca and relacao_ecfs_modelo and laudo id
+            foreach ($relacao_ecfs_marca as $index => $marca) {
+                $laudo_relacao_ecf = new LaudosRelacaoEcfs;
+                $laudo_relacao_ecf->laudo_id = $laudo->id;
+                $laudo_relacao_ecf->marca_id = $marca;
+                $laudo_relacao_ecf->modelo_id = $relacao_ecfs_modelo[$index];
+                $laudo_relacao_ecf->save();
+            }
+
             return redirect()->back()->with('msg', 'Laudo Editado com Sucesso!!');
         }
     }
@@ -288,7 +451,7 @@ class LaudoController extends Controller
 
     /**
      * Função que seria responsável por fazer upload dos arquivos, lê-los e preencher os <select> da view.
-     * Ainda não funciona
+     * AINDA NÃO FUNCIONA!
      */
     public function carregarArquivos()
     {
@@ -334,28 +497,28 @@ class LaudoController extends Controller
         $mes = Carbon::now()->month;
 
         if ($mes == 1) {
-           $mes = "Janeiro";
-        } else if($mes == 2){
+            $mes = "Janeiro";
+        } else if ($mes == 2) {
             $mes = "Fevereiro";
-        } else if($mes == 3){
+        } else if ($mes == 3) {
             $mes = "Março";
-        } else if($mes == 4){
+        } else if ($mes == 4) {
             $mes = "Abril";
-        } else if($mes == 5){
+        } else if ($mes == 5) {
             $mes = "Maio";
-        } else if($mes == 6){
+        } else if ($mes == 6) {
             $mes = "Junho";
-        } else if($mes == 7){
+        } else if ($mes == 7) {
             $mes = "Julho";
-        } else if($mes == 8){
+        } else if ($mes == 8) {
             $mes = "Agosto";
-        } else if($mes == 9){
+        } else if ($mes == 9) {
             $mes = "Setembro";
-        } else if($mes == 10){
+        } else if ($mes == 10) {
             $mes = "Outubro";
-        } else if($mes == 11){
+        } else if ($mes == 11) {
             $mes = "Novembro";
-        } else if($mes == 12){
+        } else if ($mes == 12) {
             $mes = "Dezembro";
         }
 
@@ -394,12 +557,24 @@ class LaudoController extends Controller
             'txtDataInicio' => $laudo->data_inicio,
             'txtDataFinal' => $laudo->data_termino,
             'txtEnvelope' => $laudo->numero_envelope,
+
+            'txtSGRazaoSocialCnpj' => $empresa->razao_social . " - " . $empresa->cnpj,
+            'txtSGNomeSistema' => $laudo->executavel_sgbd,
+            'txtSGRequisitoExecutado' => $laudo->requisitos_executados_sgbd,
+
+            'txtSPRazaoSocialCnpj' => $empresa->razao_social . " - " . $empresa->cnpj,
+            'txtSPNomeSistema' => $laudo->executavel_sped,
+            'txtSPFuncao' => $laudo->funcao_sped,
+
+            'txtSNRazaoSocialCnpj' => $empresa->razao_social . " - " . $empresa->cnpj,
+            'txtSNNomeSistema' => $laudo->executavel_nfe,
+
             'txtEcfMarca' => $laudo->ecf_analise_marca,
             'txtEcfModelo' => $laudo->ecf_analise_modelo,
             'txtObservacaoOTC' => $laudo->comentarios,
             'txtPrincipalExec' => $pdv->nome_principal_executavel,
-            'txtRelacaoMarcas' => $marcas_ecfs,
-            'txtRelacaoModelos' => $modelos_ecfs,
+            'txtRelacaoMarcas' => $laudo->relacao_ecfs_marca,
+            'txtRelacaoModelos' => $laudo->relacao_ecfs_modelo,
             //pretendo pegar o sysdate
             'txtDataVersao' => $laudo->data_termino,
             //informações do PDV
@@ -411,14 +586,13 @@ class LaudoController extends Controller
             //Informações Doc
             'txtData' => $data_de_hoje,
         ));
-        //$option .= '<option value="' . $ecf->id . '">' . $ecf->modelo . '</option>';
-        $stringNomeLado = $laudo->ifl;
-        $pastaParaSalvar = $stringNomeLado;
+        $stringNomeLaudo = $laudo->ifl;
+        $pastaParaSalvar = $stringNomeLaudo;
         if (!file_exists($pastaParaSalvar)) {
             mkdir($pastaParaSalvar, 0755, true);
         }
-        $pastaParaSalvar .= '/'.$stringNomeLado.'.docx';
-        $laudo->caminho_laudo = '/public/'.$pastaParaSalvar;
+        $pastaParaSalvar .= '/' . $stringNomeLaudo . '.docx';
+        $laudo->caminho_laudo = 'public\ModeloLaudoPAFECF.docx' . $pastaParaSalvar;
         $templateProcessor->saveAs($pastaParaSalvar);
         $laudo->save();
         return view('laudo.gerarDocs', ['laudo' => $laudo, 'pdv' => $pdv, 'empresa' => $empresa]);

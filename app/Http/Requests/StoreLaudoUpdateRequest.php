@@ -35,11 +35,11 @@ class StoreLaudoUpdateRequest extends FormRequest
             'funcao_sped' => 'required',
             'executavel_sped' => 'required',
             'executavel_nfe' => 'required',
-            'parecer_conclusivo' => 'required',
-            'ecf_analise_marca' => 'required',
-            'ecf_analise_modelo' => 'required',
-            'relacao_ecfs' => 'required',
+            'parecer_conclusivo' => 'required'
+            // 'ecf_analise_marca' => 'required',
+            // 'ecf_analise_modelo' => 'required',
+            // 'relacao_ecfs_marca' => 'required',
+            // 'relacao_ecfs_marca' => 'required'
         ];
     }
-
 }

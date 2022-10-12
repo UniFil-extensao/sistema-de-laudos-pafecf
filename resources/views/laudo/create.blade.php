@@ -8,8 +8,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
         integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <h1>Gerar Laudo</h1>
     <small>Os campos obrigatórios estão representados com um asterisco (*).</small>
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -19,6 +21,7 @@
             </ul>
         </div>
     @endif
+
     <form action="/laudo" method="POST" name="formulario">
         @csrf
         <ul class="nav nav-tabs" role="tablist">
@@ -30,12 +33,13 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#identificacao" role="tab"><b>Identificação dos
-                    Executáveis</b></a>
+                        Executáveis</b></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#relatorio" role="tab"><b>Relatório Final</b></a>
             </li>
         </ul>
+
         <script type="text/javascript">
             $(document).ready(function() {
                 $('.proximo').click(function() {
@@ -47,7 +51,9 @@
                 });
             });
         </script>
+
         <br>
+
         <div class="tab-content">
             <div class="tab-pane active" id="base" role="tabpanel">
                 <div class="form-group col-md-12" id="botoes">
@@ -69,6 +75,7 @@
                         <option selected value="">Nenhuma Empresa Selecionada</option>
                     </select>
                 </div>
+
                 <script>
                     $(document).ready(function() {
                         $("#empresa").change(function() {
@@ -79,6 +86,7 @@
                         })
                     })
                 </script>
+
                 <script>
                     $(function() {
                         var hoje = new Date();
@@ -101,6 +109,7 @@
                         $('#data_termino').attr('min', minDate);
                     });
                 </script>
+
                 <div class="form-group control-label col-md-3">
                     <label for="data_inicio">Data de Início do Serviço</label>
                     <input id="data_inicio" type="date" class="form-control" name="data_inicio"
@@ -164,7 +173,9 @@
                         </div>
                     @enderror
                 </div>
+
             </div>
+
             <div class="tab-pane" id="homologacao" role="tabpanel">
                 <form action="{{ route('laudo.carregarArquivos') }}" method="post" name="formulario">
                     @csrf
@@ -202,6 +213,7 @@
                     </div>
                 </form>
             </div>
+
             <div class="tab-pane" id="identificacao" role="tabpanel">
                 <div class="form-group col-md-12" id="botoes">
                     <a class="btn btn-primary proximo pull-right">Próximo</a>
@@ -226,29 +238,28 @@
                 </div>
                 <div class="form-group control-label col-md-7">
                     <label for="executavel_sgbd">Escolha o Arquivo Executável Responsável pelo SGBD e seu Respectivo
-                        MD5
-                    </label>
+                        MD5</label>
                     @error('executavel_sgbd')
                         <div class="invalid-feedback" style="color: red">
                             {{ $message }}
                         </div>
                     @enderror
-                    <div>
+                    <div style="margin-top: -22px;">
                         <label for="executavel_sgbd"></label>
-                        <input type="hidden" name="executavel_sgbd" id="executavel_sgbd">
-                        <input type="file" accept=".exe">
+                        <input type="text" class="form-control @error('executavel_sgbd') is-invalid @enderror"
+                            id="executavel_sgbd" name="executavel_sgbd" value="">
                     </div>
                 </div>
                 <br>
                 <div class="control-label col-md-12">
                     <label>Identificação dos Sistemas de PED (SPED/SINTEGRA/DOCUMENTOS/LIVROS) que Funcionam integrados ao
-                        PAF-ECF:
-                    </label>
+                        PAF-ECF:</label>
                 </div>
                 <div class="form-group control-label col-md-4">
                     <label for="funcao_sped">Função</label>
-                    <input type="text" class="form-control @error('funcao_sped') is-invalid @enderror" id="funcao_sped"
-                        name="funcao_sped" placeholder="Requisitos" value="SPED/SINTEGRA/DOCUMENTO E LIVROS">
+                    <input type="text" class="form-control @error('funcao_sped') is-invalid @enderror"
+                        id="funcao_sped" name="funcao_sped" placeholder="Requisitos"
+                        value="SPED/SINTEGRA/DOCUMENTO E LIVROS">
                     @error('funcao_sped')
                         <div class="invalid-feedback" style="color: red">
                             {{ $message }}
@@ -263,9 +274,11 @@
                             {{ $message }}
                         </div>
                     @enderror
-                        <select name="executavel_sped" id="executavel_sped" required>
-                            <option selected>Selecione o Executável</option>
-                        </select>
+                    <div style="margin-top: -22px;">
+                        <label for="executavel_sped"></label>
+                        <input type="text" class="form-control @error('executavel_sped') is-invalid @enderror"
+                            id="executavel_sped" name="executavel_sped" value="">
+                    </div>
                 </div>
                 <div class="control-label col-md-12">
                     <label>Identificação dos Sistemas de PED que geram a NF-e e funcionam integrados ao PAF-ECF: </label>
@@ -279,10 +292,10 @@
                             {{ $message }}
                         </div>
                     @enderror
-                    <div>
+                    <div style="margin-top: -22px;">
                         <label for="executavel_nfe"></label>
-                        <input type="hidden" name="executavel_nfe" id="executavel_nfe">
-                        <input type="file" accept=".exe">
+                        <input type="text" class="form-control @error('executavel_nfe') is-invalid @enderror"
+                            id="executavel_nfe" name="executavel_nfe" value="">
                     </div>
                 </div>
             </div>
@@ -294,7 +307,8 @@
                 <div class="control-label col-md-12">
                     <label>Identificação dos Equipamentos ECF Utilizados para a Análise Funcional: </label>
                 </div>
-                <div class="form-group control-label col-md-6">
+
+                <div class="form-group control-label col-md-6" style="width: auto">
                     <label for="ecf_analise_marca">Marca</label>
                     @error('ecf_analise_marca')
                         <div class="invalid-feedback" style="color: red">
@@ -321,6 +335,23 @@
                     </select>
                 </div>
 
+                <div class="form-group control-label col-md-4 form-group control-label col-md-6">
+                    <table class="table" id="tabela_ecfs">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="text-align: center">Marca</th>
+                                <th scope="col" style="text-align: center">Modelo</th>
+                                <th scope="col" style="text-align: center"><a class="btn btn-default"
+                                        href="javascript:void(0)" id="AddButtom"><img id="mais"
+                                            src="{{ url('img\mais.png') }}" width="15" heigth="15"></a></th>
+                            </tr>
+                        </thead>
+                        <tbody id="marcaModeloAnalise">
+
+                        </tbody>
+                    </table>
+                </div>
+
                 <script>
                     $(document).ready(function() {
                         $("#ecf_analise_marca").change(function() {
@@ -335,20 +366,66 @@
                 <div class="control-label col-md-12">
                     <label>Relação de marcas e modelos de equipamentos ECF compatíveis com o PAF-ECF: </label>
                 </div>
-                <div class="form-group control-label col-md-4">
-                    <label for="relacao_ecfs">Marcas e Modelos Compatíveis e Utilizados</label>
-                    @error('relacao_ecfs')
+
+                <div class="form-group control-label col-md-12">
+                    <label>Marcas e Modelos Compatíveis e Utilizados:</label>
+                </div>
+
+                <div class="form-group control-label col-md-6" style="width: auto">
+                    <label for="relacao_ecfs_marca">Marca</label>
+                    @error('relacao_ecfs_marca')
                         <div class="invalid-feedback" style="color: red">
                             {{ $message }}
                         </div>
                     @enderror
-                    <select id="relacao_ecfs" name="relacao_ecfs" multiple="">
-                        <option value="" disabled selected>Escolha as ECFS</option>
-                        @foreach ($relacao_ecfs as $ecf)
-                            <option value="{{$ecf->id}}">{{$ecf->marca}} - {{$ecf->modelo}}</option>
+                    <select name="relacao_ecfs_marca" id="relacao_ecfs_marca" required>
+                        <option selected value="">Selecione uma Marca</option>
+                        @foreach ($marcas as $marca)
+                            <option value="{{ $marca->id }}">{{ $marca->nome }}</option>
                         @endforeach
                     </select>
                 </div>
+
+                <div class="form-group control-label col-md-6">
+                    <label for="relacao_ecfs_modelo">Modelo</label>
+                    @error('relacao_ecfs_modelo')
+                        <div class="invalid-feedback" style="color: red">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                    <select name="relacao_ecfs_modelo" id="relacao_ecfs_modelo" required>
+                        <option selected value="">Selecione Primeiro a Marca</option>
+                    </select>
+                </div>
+
+                <script>
+                    $(document).ready(function() {
+                        $("#relacao_ecfs_marca").change(function() {
+                            let id = this.value;
+                            $.get('/getModelosAnaliseStore?relacao_ecfs_marca=' + id, function(data) {
+                                $("#relacao_ecfs_modelo").html(data);
+                            })
+                        })
+                    })
+                </script>
+
+                <div class="form-group control-label col-md-4 form-group control-label col-md-6">
+                    <table class="table" id="tabela_relacao_ecfs">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="text-align: center">Marca</th>
+                                <th scope="col" style="text-align: center">Modelo</th>
+                                <th scope="col" style="text-align: center"><a class="btn btn-default"
+                                        href="javascript:void(0)" id="buttomMore"><img id="mais"
+                                            src="{{ url('img\mais.png') }}" width="15" heigth="15"></a></th>
+                            </tr>
+                        </thead>
+                        <tbody id="marcaModeloRelacao">
+
+                        </tbody>
+                    </table>
+                </div>
+
                 <div class="form-group control-label col-md-12">
                     <label for="parecer_conclusivo">Parecer conclusivo: </label>
                     @error('parecer_conclusivo')
@@ -358,27 +435,28 @@
                     @enderror
                     <div>
                         <input type="radio" id="nao_conformidade" name="parecer_conclusivo" value="0">
-                        <label for="nao_conformidade">Constatada(s) “Não Conformidade” relacionada(s) no campo “Relatório de
-                            Não
-                            Conformidade”.</label>
+                        <label for="nao_conformidade">Constatada(s) “Não Conformidade” relacionada(s) no campo “Relatório
+                            de Não Conformidade”.
+                        </label>
                     </div>
                     <div>
                         <input type="radio" id="em_conformidade" name="parecer_conclusivo" value="1">
                         <label for="em_conformidade">Não constatou “Não Conformidade” em nenhum dos testes aplicados. O
-                            sistema
-                            passou em todas as especificações e testes.
+                            sistema passou em todas as especificações e testes.
                         </label>
                     </div>
                 </div>
                 <div class="control-label col-md-12">
-                    <label>Relatório de não conformidade: <br> <small class="form-group control-label" style="color: red">Só
+                    <label>Relatório de não conformidade: <br> <small class="form-group control-label"
+                            style="color: red">Só
                             deve ser preenchido com comentários caso existam inconfomidades no sistema. Favor adicionar o
-                            item do requisito e o comentário referente.</small></label>
+                            item do requisito e o comentário referente.</small>
+                    </label>
                 </div>
-                <div class="control-label col-md-4" style= "margin-top: 8px">
+                <div class="control-label col-md-4" style="margin-top: 8px">
                     <label for="comentarios">Comentários: </label>
-                    <textarea type="text" class="form-control" id="comentarios" name="comentarios"
-                        placeholder="Comentários" rows="6" cols="40" maxlength="500"></textarea>
+                    <textarea type="text" class="form-control" id="comentarios" name="comentarios" placeholder="Comentários"
+                        rows="6" cols="40" maxlength="500"></textarea>
                 </div>
                 <div class="form-group control-label col-md-4">
                     <label for="responsavel_testes">Responsável da Empresa pela Execução dos Testes:</label>
@@ -396,4 +474,62 @@
             </div>
         </div>
     </form>
+    <script defer>
+        var receber
+        receber = $('#marcaModeloAnalise')
+
+        $(document).ready(function() {
+            $("#AddButtom").click(function() {
+                var analise_marca = $("#ecf_analise_marca").children("option:selected").text()
+                var analise_modelo = $("#ecf_analise_modelo").children("option:selected").text()
+
+                var botaoHtml =
+                    `<a class="remove" href="javascript:void(0)"><img src="{{ url('img/minimize-o-sinal.png') }}" width="15" heigth="15"></a>`
+
+                var innerHtml = '<tr>' +
+                    '<td>' + '<input name="an_marca[]" value="' + analise_marca + '">' + '</td>' +
+                    '<td>' + '<input name="an_modelo[]" value="' + analise_modelo + '">' + '</td>' +
+                    '<td>' + botaoHtml + '</td>' +
+                    '</tr>'
+                receber.append(innerHtml)
+
+            });
+
+            $(receber).on("click", ".remove", function(e) {
+                e.preventDefault();
+                $(this).parent().parent('tr').remove();
+
+            });
+        })
+    </script>
+
+    <script defer>
+        var wrapper
+        wrapper = $('#marcaModeloRelacao')
+
+        $(document).ready(function() {
+            $("#buttomMore").click(function() {
+                var relacao_marca = $("#relacao_ecfs_marca").children("option:selected").text()
+                var relacao_modelo = $("#relacao_ecfs_modelo").children("option:selected").text()
+
+                var HTMLButton =
+                    `<a class="remove" href="javascript:void(0)"><img src="{{ url('img/minimize-o-sinal.png') }}" width="15" heigth="15"></a>`
+
+                var innerHTML = '<tr>' +
+                    '<td>' + '<input name="re_marca[]" value="' + relacao_marca + '">' + '</td>' +
+                    '<td>' + '<input name="re_modelo[]" value="' + relacao_modelo + '">' + '</td>' +
+                    '<td>' + HTMLButton + '</td>' +
+                    '</tr>'
+                wrapper.append(innerHTML)
+
+            });
+
+            $(wrapper).on("click", ".remove", function(e) {
+                e.preventDefault();
+                $(this).parent().parent('tr').remove();
+
+            });
+        })
+    </script>
+
 @endsection

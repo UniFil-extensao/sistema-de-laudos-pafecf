@@ -84,7 +84,7 @@
 
         .content {
             text-align: center;
-            margin-top: 9em;
+            margin-top: 2em;
         }
 
         .home {

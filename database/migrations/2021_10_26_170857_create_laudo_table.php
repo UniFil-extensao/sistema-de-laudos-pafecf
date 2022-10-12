@@ -36,7 +36,8 @@ class CreateLaudoTable extends Migration
             $table->boolean('parecer_conclusivo');
             $table->string('ecf_analise_marca');
             $table->string('ecf_analise_modelo');
-            $table->longText('relacao_ecfs');
+            $table->longText('relacao_ecfs_marca');
+            $table->longText('relacao_ecfs_modelo');
             $table->string('comentarios')->nullable();
             $table->string('responsavel_testes');
             $table->string('caminho_laudo')->nullable();
