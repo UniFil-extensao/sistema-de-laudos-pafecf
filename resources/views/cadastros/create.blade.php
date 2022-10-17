@@ -23,6 +23,30 @@
             @csrf
             <small>Os campos obrigatórios estão representados com um asterisco (*).</small>
             <br>
+            <script>
+                $(function() {
+                    $('#cnpj').mask('00.000.000/0000-00', {
+                        reverse: true
+                    });
+                    $('#cep').mask('00000-000', {
+                        reverse: true
+                    });
+                    $('#telefone').mask('(00) 0000-0000');
+                    $('#celular').mask('(00) 00000-0000');
+                    $('#cpf_representante').mask('000.000.000-00', {
+                        reverse: true
+                    });
+                    $('#rg_representante').mask('00.000000-00', {
+                        reverse: true
+                    });
+                });
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+            </script>
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" data-toggle="tab" href="#base" role="tab"><b>Informações
@@ -76,7 +100,7 @@
                     </div>
                     <div class="form-group control-label col-md-4">
                         <label for="cnpj">CNPJ</label>
-                        <input type="text" class="form-control" id="cnpj" name="cnpj" placeholder="CNPJ">
+                        <input type="text" class="form-control cnpj" id="cnpj" name="cnpj" placeholder="CNPJ">
                         @error('cnpj')
                             <div class="invalid-feedback" style="color: red">
                                 {{ $message }}
@@ -217,4 +241,5 @@
             </div>
         </form>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 @endsection

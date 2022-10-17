@@ -14,8 +14,10 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreLaudoRequest;
 use App\Http\Requests\StoreLaudoUpdateRequest;
+use DOMDocument;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\Writer\Word2007\Element\CheckBox as ElementCheckBox;
 
 /**
  * Classe de controle dos Laudos
@@ -445,7 +447,18 @@ class LaudoController extends Controller
     public function destroy($id)
     {
         $laudo = Laudo::find($id);
+        $ecfAnalise = LaudosEcfs::where('laudo_id', $id)->get();
+        $relacaoEcfs = LaudosRelacaoEcfs::where('laudo_id', $id)->get();
+
+        foreach ($ecfAnalise as $laudo) {
+            $laudo->delete();
+        }
+        foreach ($relacaoEcfs as $laudo) {
+            $laudo->delete();
+        }
+
         $laudo->delete();
+
         return redirect()->route('laudo.index')->with('msgerro', 'Laudo Excluído com Sucesso!!');
     }
 
@@ -490,7 +503,6 @@ class LaudoController extends Controller
         $ecfs = Ecfs::all();
         $empresa = Empresa::find($pdv->empresa->id);
         $templateProcessor = new TemplateProcessor('ModeloLaudoPAFECF.docx');
-
 
         $ano_atual = Carbon::now()->year;
         $dia = Carbon::now()->day;
@@ -550,6 +562,7 @@ class LaudoController extends Controller
             'txtCpfContato' => $empresa->cpf_representante,
             'txtRGRepresentante' => $empresa->rg_representante,
             'txtEmail' => $empresa->email_representante,
+
             //informações do Laudo
             'txtResponsavelTestes' => $laudo->responsavel_testes,
             'laudo' => $laudo->ifl,
@@ -575,17 +588,46 @@ class LaudoController extends Controller
             'txtPrincipalExec' => $pdv->nome_principal_executavel,
             'txtRelacaoMarcas' => $laudo->relacao_ecfs_marca,
             'txtRelacaoModelos' => $laudo->relacao_ecfs_modelo,
+
             //pretendo pegar o sysdate
             'txtDataVersao' => $laudo->data_termino,
+
             //informações do PDV
             'txtNomeComercial' => $pdv->nome_comercial,
             'txtVersao' => $pdv->versao,
             'txtLinguagemProgramacao' => $pdv->linguagem,
             'txtSo' => $pdv->sistema_operacional,
             'txtBd' => $pdv->data_base,
+            'txtPerfilR' => "▢ Perfil R",
+            'txtPerfilS' => "▢ Perfil S",
+            'txtPerfilT' => "▢ Perfil T",
+            'txtPerfilU' => "▢ Perfil U",
+            'txtPerfilV' => "▢ Perfil V",
+            'txtPerfilW' => "▢ Perfil W",
+            'txtPerfilY' => "▢ Perfil Y",
+            'txtPerfilZ' => "▢ Perfil Z",
+
+            '$txtDesenvComercializavel' => "▢ Comercializável",
+            'txtProprio' => "▢ Exclusivamente Próprio",
+            'txtTerceirizado' => "▢ Exclusivamente Terceirizado",
+
+            'txtConcomitante' => "▢ Concomitante",
+            'txtNaoConcomitanteDAV' => "▢ Não Concomitante com impressão de DAV",
+            'txtNaoConcomitantePV' => "▢ Não Concomitante com com controle de pré-venda",
+            'txtNaoConcomitanteCliente' => "▢ Não Concomitante com com controle de conta de cliente",
+
+            'txtDAVSemImpressao' => "▢ DAV - emitido sem impossibilidade de impressão",
+            'txtDAVImpressoNF' => "▢ DAV - impresso em impressora não fiscal",
+            'txtDAVECF' => "▢ DAV - impresso em ECF",
+
+            'txtStandAlone' => "▢ Exclusivamente Stand Alone",
+            'txtRede' => "▢ Em Rede",
+            'txtParametrizavel' => "▢ Parametrizável",
+
             //Informações Doc
             'txtData' => $data_de_hoje,
         ));
+
         $stringNomeLaudo = $laudo->ifl;
         $pastaParaSalvar = $stringNomeLaudo;
         if (!file_exists($pastaParaSalvar)) {
@@ -594,7 +636,444 @@ class LaudoController extends Controller
         $pastaParaSalvar .= '/' . $stringNomeLaudo . '.docx';
         $laudo->caminho_laudo = 'public\ModeloLaudoPAFECF.docx' . $pastaParaSalvar;
         $templateProcessor->saveAs($pastaParaSalvar);
+        $link = '/' . $laudo->ifl . '/' . $laudo->ifl . '.docx';
         $laudo->save();
+        return view('laudo.gerarDocs', ['laudo' => $laudo, 'pdv' => $pdv, 'empresa' => $empresa, 'link' => $link]);
+    }
+
+    public function gerarXML($id)
+    {
+        //chamando o laudo, empresa, pdv e ecfs
+        $laudo = Laudo::find($id);
+        $pdv = PDV::find($laudo->id_pdv);
+        $ecfsAnalise = LaudosEcfs::all();
+        $ecfsRelacao = LaudosRelacaoEcfs::all();
+        $empresa = Empresa::find($pdv->empresa->id);
+
+        //instância do documento
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        //formatação do código
+        $dom->formatOutput = true;
+
+        $idLaudoValue = $dom->createTextNode($id);
+        $idLaudo = $dom->createElement('LaudoId');
+        $idLaudo->appendChild($idLaudoValue);
+
+        $iflValue = $dom->createTextNode($laudo->ifl);
+        $ifl = $dom->createElement('IFL');
+        $ifl->appendChild($iflValue);
+
+        $razaoSocialValue = $dom->createTextNode($empresa->razao_social);
+        $razaoSocial = $dom->createElement('RazaoSocial');
+        $razaoSocial->appendChild($razaoSocialValue);
+
+        $nomeFantasiaValue = $dom->createTextNode($empresa->nome_fantasia);
+        $nomeFantasia = $dom->createElement('NomeFantasia');
+        $nomeFantasia->appendChild($nomeFantasiaValue);
+
+        $enderecoValue = $dom->createTextNode($empresa->endereco);
+        $endereco = $dom->createElement('Endereço');
+        $endereco->appendChild($enderecoValue);
+
+        $bairroValue = $dom->createTextNode($empresa->bairro);
+        $bairro = $dom->createElement('Bairro');
+        $bairro->appendChild($bairroValue);
+
+        $cidadeValue = $dom->createTextNode($empresa->cidade);
+        $cidade = $dom->createElement('Cidade');
+        $cidade->appendChild($cidadeValue);
+
+        $ufValue = $dom->createTextNode($empresa->uf);
+        $uf = $dom->createElement('UF');
+        $uf->appendChild($ufValue);
+
+        $cepValue = $dom->createTextNode($empresa->cep);
+        $cep = $dom->createElement('CEP');
+        $cep->appendChild($cepValue);
+
+        $telefoneValue = $dom->createTextNode($empresa->telefone);
+        $telefone = $dom->createElement('Telefone');
+        $telefone->appendChild($telefoneValue);
+
+        $celularValue = $dom->createTextNode($empresa->celular);
+        $celular = $dom->createElement('Celular');
+        $celular->appendChild($celularValue);
+
+        $cnpjValue = $dom->createTextNode($empresa->cnpj);
+        $cnpj = $dom->createElement('CNPJ');
+        $cnpj->appendChild($cnpjValue);
+
+        $inscricaoEstadualValue = $dom->createTextNode($empresa->inscricao_estadual);
+        $inscricaoEstadual = $dom->createElement('InscricaoEstadual');
+        $inscricaoEstadual->appendChild($inscricaoEstadualValue);
+
+        $inscricaoMunicipalValue = $dom->createTextNode($empresa->inscricao_municipal);
+        $inscricaoMunicipal = $dom->createElement('InscricaoMunicipal');
+        $inscricaoMunicipal->appendChild($inscricaoMunicipalValue);
+
+        $representanteValue = $dom->createTextNode($empresa->representante);
+        $representante = $dom->createElement('Representante');
+        $representante->appendChild($representanteValue);
+
+        $cpfRepresValue = $dom->createTextNode($empresa->cpf_representante);
+        $cpfRepres = $dom->createElement('CPFRepresentante');
+        $cpfRepres->appendChild($cpfRepresValue);
+
+        $rgRepresValue = $dom->createTextNode($empresa->rg_representante);
+        $rgRepres = $dom->createElement('RGRepresentante');
+        $rgRepres->appendChild($rgRepresValue);
+
+        $emailValue = $dom->createTextNode($empresa->email_representante);
+        $email = $dom->createElement('Email');
+        $email->appendChild($emailValue);
+
+        $responsavelValue = $dom->createTextNode($laudo->responsavel_testes);
+        $responsavel = $dom->createElement('ResponsavelTestes');
+        $responsavel->appendChild($responsavelValue);
+        /////////////////////////////////////////////////////////////////////////////////////
+        $identificacaoValue = $dom->createTextNode('IFL – Instituto Filadélfia de Londrina');
+        $identificacao = $dom->createElement('Identificacao');
+        $identificacao->appendChild($identificacaoValue);
+
+        $homologadorValue = $dom->createTextNode($laudo->homologador);
+        $homologador = $dom->createElement('Homologador');
+        $homologador->appendChild($homologadorValue);
+
+        $enderecoInstituicaoValue = $dom->createTextNode('Av. Juscelino Kubischeck, 1626');
+        $enderecoInstituicao = $dom->createElement('EnderecoInstituicao');
+        $enderecoInstituicao->appendChild($enderecoInstituicaoValue);
+
+        $bairroInstituicaoValue = $dom->createTextNode('Centro');
+        $bairroInstituicao = $dom->createElement('BairroInstituicao');
+        $bairroInstituicao->appendChild($bairroInstituicaoValue);
+
+        $cidadeInstituicaoValue = $dom->createTextNode('Londrina');
+        $cidadeInstituicao = $dom->createElement('CidadeInstituicao');
+        $cidadeInstituicao->appendChild($cidadeInstituicaoValue);
+
+        $ufInstituicaoValue = $dom->createTextNode('PR');
+        $ufInstituicao = $dom->createElement('UFInstituicao');
+        $ufInstituicao->appendChild($ufInstituicaoValue);
+
+        $cepInstituicaoValue = $dom->createTextNode('86010-000');
+        $cepInstituicao = $dom->createElement('CEPInstituicao');
+        $cepInstituicao->appendChild($cepInstituicaoValue);
+
+        $cnpjInstituicaoValue = $dom->createTextNode('78.624.202/0001-00');
+        $cnpjInstituicao = $dom->createElement('CNPJInstituicao');
+        $cnpjInstituicao->appendChild($cnpjInstituicaoValue);
+
+        $dataInicioValue = $dom->createTextNode($laudo->data_inicio);
+        $dataInicio = $dom->createElement('DataInicio');
+        $dataInicio->appendChild($dataInicioValue);
+
+        $dataTerminoValue = $dom->createTextNode($laudo->data_termino);
+        $dataTermino = $dom->createElement('DataTermino');
+        $dataTermino->appendChild($dataTerminoValue);
+        /////////////////////////////////////////////////////////////////////////////////////
+        $nomeComercialValue = $dom->createTextNode($pdv->nome_comercial);
+        $nomeComercial = $dom->createElement('NomeComercial');
+        $nomeComercial->appendChild($nomeComercialValue);
+
+        $versaoValue = $dom->createTextNode($pdv->versao);
+        $versao = $dom->createElement('Versao');
+        $versao->appendChild($versaoValue);
+
+        $dataVersaoValue = $dom->createTextNode($laudo->data_termino);
+        $dataVersao = $dom->createElement('DataVersao');
+        $dataVersao->appendChild($dataVersaoValue);
+
+        $arqExecValue = $dom->createTextNode($pdv->nome_principal_executavel);
+        $arqExec = $dom->createElement('ArquivoExecutavel');
+        $arqExec->appendChild($arqExecValue);
+
+        $md5ArqExecValue = $dom->createTextNode('');
+        $md5ArqExec = $dom->createElement('MD5ArquivoExecutavel');
+        $md5ArqExec->appendChild($md5ArqExecValue);
+
+        $listaExecMd5Value = $dom->createTextNode('');
+        $listaExecMd5 = $dom->createElement('ListaExecMD5');
+        $listaExecMd5->appendChild($listaExecMd5Value);
+
+        $relacaoExecMd5Value = $dom->createTextNode('');
+        $relacaoExecMd5 = $dom->createElement('RelacaoExecMD5');
+        $relacaoExecMd5->appendChild($relacaoExecMd5Value);
+
+        $relacao2Md5Value = $dom->createTextNode('');
+        $relacao2Md5 = $dom->createElement('Relacao2MD5');
+        $relacao2Md5->appendChild($relacao2Md5Value);
+
+        $perfisValue = $dom->createTextNode($pdv->perfis);
+        $perfis = $dom->createElement('Perfis');
+        $perfis->appendChild($perfisValue);
+
+        $envelopeSegurancaValue = $dom->createTextNode($pdv->envelope_seguranca_marca);
+        $envelopeSeguranca = $dom->createElement('EnvelopeSeguranca');
+        $envelopeSeguranca->appendChild($envelopeSegurancaValue);
+
+        $envelopeModeloValue = $dom->createTextNode($pdv->envelope_seguranca_modelo);
+        $envelopeModelo = $dom->createElement('EnvelopeModelo');
+        $envelopeModelo->appendChild($envelopeModeloValue);
+
+        $envelopeNumeroValue = $dom->createTextNode($pdv->numero_envelope);
+        $envelopeNumero = $dom->createElement('EnvelopeNumero');
+        $envelopeNumero->appendChild($envelopeNumeroValue);
+        /////////////////////////////////////////////////////////////////////////////////////
+        $linguagemValue = $dom->createTextNode($pdv->linguagem);
+        $linguagem = $dom->createElement('Linguagem');
+        $linguagem->appendChild($linguagemValue);
+
+        $sistemaOperacionalValue = $dom->createTextNode($pdv->sistema_operacional);
+        $sistemaOperacional = $dom->createElement('SistemaOperacional');
+        $sistemaOperacional->appendChild($sistemaOperacionalValue);
+
+        $dataBaseValue = $dom->createTextNode($pdv->data_base);
+        $dataBase = $dom->createElement('DataBase');
+        $dataBase->appendChild($dataBaseValue);
+
+        $desenvolvimentoTipoValue = $dom->createTextNode($pdv->tipo_desenvolvimento);
+        $desenvolvimentoTipo = $dom->createElement('TipoDesenvolvimento');
+        $desenvolvimentoTipo->appendChild($desenvolvimentoTipoValue);
+
+        $formaImpressaoValue = $dom->createTextNode($pdv->forma_impressao);
+        $formaImpressao = $dom->createElement('FormaImpressao');
+        $formaImpressao->appendChild($formaImpressaoValue);
+
+        $tipoFuncionamentoValue = $dom->createTextNode($pdv->tipo_funcionamento);
+        $tipoFuncionamento = $dom->createElement('TipoFuncionamento');
+        $tipoFuncionamento->appendChild($tipoFuncionamentoValue);
+
+        $spedValue = $dom->createTextNode($pdv->sped);
+        $sped = $dom->createElement('SPED');
+        $sped->appendChild($spedValue);
+
+        $nfeValue = $dom->createTextNode($pdv->nfe);
+        $nfe = $dom->createElement('NFE');
+        $nfe->appendChild($nfeValue);
+
+        $nfceValue = $dom->createTextNode($pdv->nfce);
+        $nfce = $dom->createElement('NFCE');
+        $nfce->appendChild($nfceValue);
+
+        $interrupcaoValue = $dom->createTextNode($pdv->tratamento_interrupcao);
+        $interrupcao = $dom->createElement('TratamentoInterrupcao');
+        $interrupcao->appendChild($interrupcaoValue);
+
+        $integracaoPafValue = $dom->createTextNode($pdv->integracao_paf);
+        $integracaoPaf = $dom->createElement('IntegracaoPAF');
+        $integracaoPaf->appendChild($integracaoPafValue);
+
+        $aplicacoesEspeciaisValue = $dom->createTextNode($pdv->aplicacoes_especiais);
+        $aplicacoesEspeciais = $dom->createElement('AplicacoesEspeciais');
+        $aplicacoesEspeciais->appendChild($aplicacoesEspeciaisValue);
+        /////////////////////////////////////////////////////////////////////////////////////
+        $sgbdEmpresaValue = $dom->createTextNode($pdv->razao_social_empresa);
+        $sgbdEmpresa = $dom->createElement('SGBDEmpresa');
+        $sgbdEmpresa->appendChild($sgbdEmpresaValue);
+
+        $sgbdEmpresaCnpjValue = $dom->createTextNode($empresa->cnpj);
+        $sgbdEmpresaCnpj = $dom->createElement('SGBDEmpresaCNPJ');
+        $sgbdEmpresaCnpj->appendChild($sgbdEmpresaCnpjValue);
+
+        $sgbdNomeValue = $dom->createTextNode($laudo->executavel_sgbd);
+        $sgbdNome = $dom->createElement('SGBDNome');
+        $sgbdNome->appendChild($sgbdNomeValue);
+
+        $sgbdRequisitoValue = $dom->createTextNode($laudo->requisitos_executados_sgbd);
+        $sgbdRequisito = $dom->createElement('SGBDRequisito');
+        $sgbdRequisito->appendChild($sgbdRequisitoValue);
+
+        $sgbdArquivoNomeValue = $dom->createTextNode('');
+        $sgbdArquivoNome = $dom->createElement('SGBDArquivoNome');
+        $sgbdArquivoNome->appendChild($sgbdArquivoNomeValue);
+
+        $sgbdArquivoMd5Value = $dom->createTextNode('');
+        $sgbdArquivoMd5 = $dom->createElement('SGBDArquivoMD5');
+        $sgbdArquivoMd5->appendChild($sgbdArquivoMd5Value);
+        /////////////////////////////////////////////////////////////////////////////////////
+        $spedEmpresaValue = $dom->createTextNode($pdv->razao_social_empresa);
+        $spedEmpresa = $dom->createElement('SPEDEmpresa');
+        $spedEmpresa->appendChild($spedEmpresaValue);
+
+        $spedEmpresaCnpjValue = $dom->createTextNode($empresa->cnpj);
+        $spedEmpresaCnpj = $dom->createElement('SPEDEmpresaCNPJ');
+        $spedEmpresaCnpj->appendChild($spedEmpresaCnpjValue);
+
+        $spedNomeValue = $dom->createTextNode($laudo->executavel_sped);
+        $spedNome = $dom->createElement('SPEDNome');
+        $spedNome->appendChild($spedNomeValue);
+
+        $spedArquivoNomeValue = $dom->createTextNode('');
+        $spedArquivoNome = $dom->createElement('SPEDArquivoNome');
+        $spedArquivoNome->appendChild($spedArquivoNomeValue);
+
+        $spedArquivoMd5Value = $dom->createTextNode('');
+        $spedArquivoMd5 = $dom->createElement('SPEDArquivoMD5');
+        $spedArquivoMd5->appendChild($spedArquivoMd5Value);
+
+        $spedFuncaoValue = $dom->createTextNode($laudo->funcao_sped);
+        $spedFuncao = $dom->createElement('SPEDFuncao');
+        $spedFuncao->appendChild($spedFuncaoValue);
+        /////////////////////////////////////////////////////////////////////////////////////
+        $nfeEmpresaValue = $dom->createTextNode($pdv->razao_social_empresa);
+        $nfeEmpresa = $dom->createElement('NFEEmpresa');
+        $nfeEmpresa->appendChild($nfeEmpresaValue);
+
+        $nfeEmpresaCnpjValue = $dom->createTextNode($empresa->cnpj);
+        $nfeEmpresaCnpj = $dom->createElement('NFEEmpresaCNPJ');
+        $nfeEmpresaCnpj->appendChild($nfeEmpresaCnpjValue);
+
+        $nfeNomeValue = $dom->createTextNode($laudo->executavel_nfe);
+        $nfeNome = $dom->createElement('NFENome');
+        $nfeNome->appendChild($nfeNomeValue);
+
+        $nfeArquivoNomeValue = $dom->createTextNode('');
+        $nfeArquivoNome = $dom->createElement('NFEArquivoNome');
+        $nfeArquivoNome->appendChild($nfeArquivoNomeValue);
+
+        $nfeArquivoMd5Value = $dom->createTextNode('');
+        $nfeArquivoMd5 = $dom->createElement('NFEArquivoMD5');
+        $nfeArquivoMd5->appendChild($nfeArquivoMd5Value);
+
+        $ecfAnaliseMarcaValue = $dom->createTextNode($laudo->ecf_analise_marca == $ecfsAnalise);
+        $ecfAnaliseMarca = $dom->createElement('ECFAnaliseMarca');
+        $ecfAnaliseMarca->appendChild($ecfAnaliseMarcaValue);
+
+        $ecfAnaliseModeloValue = $dom->createTextNode($laudo->ecf_analise_modelo == $ecfsAnalise);
+        $ecfAnaliseModelo = $dom->createElement('ECFAnaliseModelo');
+        $ecfAnaliseModelo->appendChild($ecfAnaliseModeloValue);
+
+        $ecfRelacaoMarcaValue = $dom->createTextNode($laudo->relacao_ecfs_marca == $ecfsRelacao);
+        $ecfRelacaoMarca = $dom->createElement('ECFRelacaoMarca');
+        $ecfRelacaoMarca->appendChild($ecfRelacaoMarcaValue);
+
+        $ecfRelacaoModeloValue = $dom->createTextNode($laudo->relacao_ecfs_modelo == $ecfsRelacao);
+        $ecfRelacaoModelo = $dom->createElement('ECFRelacaoModelo');
+        $ecfRelacaoModelo->appendChild($ecfRelacaoModeloValue);
+
+        //-------------------------------------------------------------------------------------
+        //criar node
+        $laudoNode = $dom->createElement('Laudo');
+        $empresaNode = $dom->createElement('Empresa');
+        $instituicaoNode = $dom->createElement('Instituicao');
+        $pdvNode = $dom->createElement('PDV');
+        $pdvCaracteristicasNode = $dom->createElement('CaracteristicasPDV');
+        $retaguardaNode = $dom->createElement('Retaguarda');
+        $sgbdNode = $dom->createElement('SGBDExecutavel');
+        $spedNode = $dom->createElement('SPEDExecutavel');
+        $nfeNode = $dom->createElement('NFEExecutavel');
+        $ecfNode = $dom->createElement('ECF');
+        $ecfAnaliseNode = $dom->createElement('AnaliseECF');
+        $ecfRelacaoNode = $dom->createElement('RelacaoECF');
+        $naoConformidadeNode = $dom->createElement('NaoConformidades');
+
+        //empresa
+        $laudoNode->appendChild($empresaNode);
+        $empresaNode->appendChild($idLaudo);
+        $empresaNode->appendChild($ifl);
+        $empresaNode->appendChild($razaoSocial);
+        $empresaNode->appendChild($nomeFantasia);
+        $empresaNode->appendChild($endereco);
+        $empresaNode->appendChild($bairro);
+        $empresaNode->appendChild($cidade);
+        $empresaNode->appendChild($uf);
+        $empresaNode->appendChild($cep);
+        $empresaNode->appendChild($telefone);
+        $empresaNode->appendChild($celular);
+        $empresaNode->appendChild($cnpj);
+        $empresaNode->appendChild($inscricaoEstadual);
+        $empresaNode->appendChild($inscricaoMunicipal);
+        $empresaNode->appendChild($representante);
+        $empresaNode->appendChild($cpfRepres);
+        $empresaNode->appendChild($rgRepres);
+        $empresaNode->appendChild($email);
+        $empresaNode->appendChild($responsavel);
+        //instituicao
+        $laudoNode->appendChild($instituicaoNode);
+        $instituicaoNode->appendChild($identificacao);
+        $instituicaoNode->appendChild($homologador);
+        $instituicaoNode->appendChild($enderecoInstituicao);
+        $instituicaoNode->appendChild($bairroInstituicao);
+        $instituicaoNode->appendChild($cidadeInstituicao);
+        $instituicaoNode->appendChild($ufInstituicao);
+        $instituicaoNode->appendChild($cepInstituicao);
+        $instituicaoNode->appendChild($cnpjInstituicao);
+        $instituicaoNode->appendChild($dataInicio);
+        $instituicaoNode->appendChild($dataTermino);
+        //pdv
+        $laudoNode->appendChild($pdvNode);
+        $pdvNode->appendChild($nomeComercial);
+        $pdvNode->appendChild($versao);
+        $pdvNode->appendChild($dataVersao);
+        $pdvNode->appendChild($arqExec);
+        $pdvNode->appendChild($md5ArqExec);
+        $pdvNode->appendChild($listaExecMd5);
+        $pdvNode->appendChild($relacaoExecMd5);
+        $pdvNode->appendChild($relacao2Md5);
+        $pdvNode->appendChild($perfis);
+        $pdvNode->appendChild($envelopeSeguranca);
+        $pdvNode->appendChild($envelopeModelo);
+        $pdvNode->appendChild($envelopeNumero);
+        //pdv caracteristicas
+        $laudoNode->appendChild($pdvCaracteristicasNode);
+        $pdvCaracteristicasNode->appendChild($linguagem);
+        $pdvCaracteristicasNode->appendChild($sistemaOperacional);
+        $pdvCaracteristicasNode->appendChild($dataBase);
+        $pdvCaracteristicasNode->appendChild($desenvolvimentoTipo);
+        $pdvCaracteristicasNode->appendChild($formaImpressao);
+        $pdvCaracteristicasNode->appendChild($tipoFuncionamento);
+        $pdvCaracteristicasNode->appendChild($sped);
+        $pdvCaracteristicasNode->appendChild($nfe);
+        $pdvCaracteristicasNode->appendChild($nfce);
+        $pdvCaracteristicasNode->appendChild($interrupcao);
+        $pdvCaracteristicasNode->appendChild($integracaoPaf);
+        $pdvCaracteristicasNode->appendChild($aplicacoesEspeciais);
+        //retaguarda
+        $laudoNode->appendChild($retaguardaNode);
+        //SGBD
+        $retaguardaNode->appendChild($sgbdNode);
+        $sgbdNode->appendChild($sgbdEmpresa);
+        $sgbdNode->appendChild($sgbdNome);
+        $sgbdNode->appendChild($sgbdEmpresaCnpj);
+        $sgbdNode->appendChild($sgbdRequisito);
+        $sgbdNode->appendChild($sgbdArquivoNome);
+        $sgbdNode->appendChild($sgbdArquivoMd5);
+        //SPED
+        $retaguardaNode->appendChild($spedNode);
+        $spedNode->appendChild($spedEmpresa);
+        $spedNode->appendChild($spedNome);
+        $spedNode->appendChild($spedEmpresaCnpj);
+        $spedNode->appendChild($spedFuncao);
+        $spedNode->appendChild($spedArquivoNome);
+        $spedNode->appendChild($spedArquivoMd5);
+        //NFE
+        $retaguardaNode->appendChild($nfeNode);
+        $nfeNode->appendChild($nfeEmpresa);
+        $nfeNode->appendChild($nfeNome);
+        $nfeNode->appendChild($nfeEmpresaCnpj);
+        $nfeNode->appendChild($nfeArquivoNome);
+        $nfeNode->appendChild($nfeArquivoMd5);
+        //Ecf
+        $laudoNode->appendChild($ecfNode);
+        //Analise ECF
+        $ecfNode->appendChild($ecfAnaliseNode);
+        $ecfAnaliseNode->appendChild($ecfAnaliseMarca); //marca
+        $ecfAnaliseNode->appendChild($ecfAnaliseModelo); //modelo
+        //Relacao ECF
+        $ecfNode->appendChild($ecfRelacaoNode);
+        $ecfRelacaoNode->appendChild($ecfRelacaoMarca); //marca
+        $ecfRelacaoNode->appendChild($ecfRelacaoModelo); //modelo
+        //Nao Conformidades
+        $laudoNode->appendChild($naoConformidadeNode);
+
+        //nó principal - root
+        $rootNode = $dom->createElement('Laudo');
+        $rootNode = $dom->appendChild($laudoNode);
+        $dom->appendChild($rootNode);
+
+        //salva o arquivo xml na pasta xml do projeto com o nome do arquivo sendo o id do laudo + .xml
+        $dom->save($laudo->ifl . '.xml');
+
         return view('laudo.gerarDocs', ['laudo' => $laudo, 'pdv' => $pdv, 'empresa' => $empresa]);
     }
 }

@@ -23,29 +23,17 @@
                 indesejados.</p>
         </div>
         <div class="form-group col-md-6">
-            <input type="submit" class="btn btn-success" value="Gerar Arquivos">
+            <input id="download" type="submit" class="btn btn-success" value="Gerar Arquivos">
+            @if (isset($link))
+                <script defer>
+                    window.open("{{ $link }}", "_blank");
+                </script>
+            @endif
         </div>
     </form>
-    <form action="">
-        <div class="control-label col-md-12">
-            <label>Fazer Upload de Arquivos Atualizados: </label>
-        </div>
-        <div class="form-group col-md-12">
-            <p>Você também pode atualizar os arquivos do servidor através de um upload. Selecione os arquivos e clique no
-                botão descrito.</p>
-        </div>
-        <div class="form-group control-label col-md-6">
-            <label for="laudo_doc">Laudo.doc</label>
-            <input type="hidden" name="laudo_doc" id="laudo_doc">
-            <input type="file" accept=".docx">
-        </div>
-        <div class="form-group control-label col-md-6">
-            <label for="laudo_xml">Laudo.xml</label>
-            <input type="hidden" name="laudo_xml" id="laudo_xml">
-            <input type="file" accept=".xml">
-        </div>
-        <div class="form-group col-md-12">
-            <input type="submit" class="btn btn-success" value="Fazer Upload">
+    <form action="/gerarXML/{{ $laudo->id }}" method="GET">
+        <div class="form-group col-md-6">
+            <input id="download" type="submit" class="btn btn-success" value="Gerar Arquivo XML">
         </div>
     </form>
 @endsection

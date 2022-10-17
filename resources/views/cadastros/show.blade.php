@@ -30,6 +30,29 @@
         });
     </script>
     <script>
+        $(function() {
+            $('#cnpj').mask('00.000.000/0000-00', {
+                reverse: true
+            });
+            $('#cep').mask('00000-000', {
+                reverse: true
+            });
+            $('#telefone').mask('(00) 0000-0000');
+            $('#celular').mask('(00) 00000-0000');
+            $('#cpf_representante').mask('000.000.000-00', {
+                reverse: true
+            });
+            $('#rg_representante').mask('00.000000-00', {
+                reverse: true
+            });
+        });
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         function validarExclusao(frm) {
             var validador = confirm("Tem certeza que deseja excluir o cadastro desta empresa?");
             if (validador == false) {
@@ -259,4 +282,5 @@
             </div>
         </div>
     </form>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 @endsection

@@ -60,6 +60,7 @@ Route::post('/carregarArquivos', 'LaudoController@carregarArquivos')->name('laud
 Route::post('/laudo/{laudo}/destroy', 'LaudoController@destroy')->name('laudo.destroy');
 Route::get('laudo/{laudo}/gerarDocumentos', 'LaudoController@viewGerarDocs')->name('laudo.gerarDocumentos');
 Route::get('/gerarLaudo/{laudo}', 'LaudoController@gerarLaudo')->name('laudo.gerarLaudo');
+Route::get('/gerarXML/{laudo}', 'LaudoController@gerarXML')->name('laudo.gerarXML');
 Route::get('get/file', function () {
     return Storage::download('path to file');
 });
