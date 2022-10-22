@@ -24,7 +24,7 @@ class CreateCadastroEmpresasTable extends Migration
             $table->string('uf', 2);
             $table->string('cep', 9);
             $table->string('telefone', 15);
-            $table->string('celular', 14);
+            $table->string('celular', 15);
             $table->string('inscricao_estadual')->nullable();
             $table->string('inscricao_municipal')->nullable();
             $table->string('representante');

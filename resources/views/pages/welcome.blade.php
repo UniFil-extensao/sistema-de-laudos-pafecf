@@ -13,23 +13,12 @@
     <style>
         html,
         body {
-            background-color: #ddd;
+            background-color: #ff8f00;
             color: black;
             font-family: 'Nunito', sans-serif;
-            font-weight: 200;
+            font-weight: 200px;
             height: 100vh;
-            margin: 0;
-        }
-
-        .page-login .page-login-main {
-            position: absolute;
-            top: 0;
-            right: 0;
-            height: auto;
-            min-height: 100%;
-            padding: 50px 60px 60px;
-            color: black;
-            background: #ddd;
+            margin: 0px;
         }
 
         * {
@@ -38,28 +27,16 @@
             box-sizing: border-box;
         }
 
-        user agent stylesheet div {
-            display: block;
-        }
-
         .page-dark.layout-full {
             color: #ddd;
         }
 
         body {
-            font-weight: 300;
+            font-weight: 300px;
             font-size: 14px;
             line-height: 1.57142857;
             color: white;
-            background-color: #ddd;
-        }
-
-        html {
-            font-size: 10px;
-            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-            font-family: 'Nunito', sans-serif;
-            -webkit-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%;
+            background-color: #ff8f00;
         }
 
         *:before,
@@ -84,7 +61,9 @@
 
         .content {
             text-align: center;
-            margin-top: 2em;
+            margin-top: 15em;
+            border-radius: 55px;
+            width: 464px;
         }
 
         .home {
@@ -115,9 +94,10 @@
         }
 
         #pafecf {
-            height: 250px;
-            width: 275px;
-            margin-right: 30px;
+            height: 15em;
+            width: 16em;
+            margin-right: 3em;
+            margin-left: 3em;
             position: center;
         }
 
@@ -125,16 +105,28 @@
             height: 4em;
             width: 16em;
             position: center;
+            margin-top: 10em;
+        }
+
+        .sla {
+            vertical-align: middle;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
     </style>
 </head>
 
 <body>
-    <div class="content">
 
-        <img style="" id="pafecf" src="{{ url('img\logoPAFECFUNIFIL.png') }}">
-        <div>
-            <a href="{{ route('google') }}"><img id="google_sigIn" src="{{ url('img\signin-button.png') }}"></a>
+    <div class="sla">
+        <div class="content" style="background-color: #ddd; margin: 0 auto;">
+
+            <img id="pafecf" src="{{ url('img\logoPAFECFUNIFIL.png') }}">
+            <div style="padding-bottom: 4em">
+                <a href="{{ route('google') }}"><img id="google_sigIn" src="{{ url('img\signin-button.png') }}"></a>
+            </div>
         </div>
     </div>
 </body>

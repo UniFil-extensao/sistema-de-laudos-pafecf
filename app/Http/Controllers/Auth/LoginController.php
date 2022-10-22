@@ -63,8 +63,8 @@ class LoginController extends Controller
         } catch (\Exception $e) {
             return redirect('/');
         }
-        // apenas permitirá peossoas com @edu.unifil.br como login
-        if (explode("@", $user->email)[1] !== 'edu.unifil.br') {
+        // apenas permitirá pessoas com @edu.unifil.br como login
+        if (explode("@", $user->email)[1] !== 'unifil.br') {
             return redirect()->to('/');
         }
         // chega se é um usuário existente
