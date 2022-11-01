@@ -487,8 +487,10 @@
                     `<a class="remove" href="javascript:void(0)"><img src="{{ url('img/minimize-o-sinal.png') }}" width="15" heigth="15"></a>`
 
                 var innerHtml = '<tr>' +
-                    '<td>' + '<input name="an_marca[]" value="' + analise_marca + '">' + '</td>' +
-                    '<td>' + '<input name="an_modelo[]" value="' + analise_modelo + '">' + '</td>' +
+                    '<td>' + '<input style="border: none" name="an_marca[]" value="' + analise_marca +
+                    '">' + '</td>' +
+                    '<td>' + '<input style="border: none" name="an_modelo[]" value="' + analise_modelo +
+                    '">' + '</td>' +
                     '<td>' + botaoHtml + '</td>' +
                     '</tr>'
                 receber.append(innerHtml)

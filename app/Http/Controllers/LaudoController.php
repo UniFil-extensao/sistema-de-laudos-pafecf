@@ -100,8 +100,6 @@ class LaudoController extends Controller
      */
     public function store(StoreLaudoRequest $request)
     {
-        //dd request all
-        // dd($request->all());
         $laudo = new Laudo;
         $pdv = PDV::find($request->pdv);
         $user = auth()->user();
@@ -114,9 +112,6 @@ class LaudoController extends Controller
         } else {
             $laudo->ifl .= "IFL0" . $laudo->numero_laudo . $ano_atual;
         }
-
-        // $ecf = Ecfs::find($request->ecf_analise_modelo);
-        // $ecf_compativel = Ecfs::find($request->relacao_ecfs_modelo);
 
         $laudo->id_pdv = $pdv->id;
         $laudo->id_empresa = $pdv->empresa->id;
@@ -730,7 +725,7 @@ class LaudoController extends Controller
         $responsavelValue = $dom->createTextNode($laudo->responsavel_testes);
         $responsavel = $dom->createElement('ResponsavelTestes');
         $responsavel->appendChild($responsavelValue);
-        /////////////////////////////////////////////////////////////////////////////////////
+        //---------------------------------------------------------------------------------//
         $identificacaoValue = $dom->createTextNode('IFL – Instituto Filadélfia de Londrina');
         $identificacao = $dom->createElement('Identificacao');
         $identificacao->appendChild($identificacaoValue);
@@ -770,7 +765,7 @@ class LaudoController extends Controller
         $dataTerminoValue = $dom->createTextNode($laudo->data_termino);
         $dataTermino = $dom->createElement('DataTermino');
         $dataTermino->appendChild($dataTerminoValue);
-        /////////////////////////////////////////////////////////////////////////////////////
+        //---------------------------------------------------------------------------------//
         $nomeComercialValue = $dom->createTextNode($pdv->nome_comercial);
         $nomeComercial = $dom->createElement('NomeComercial');
         $nomeComercial->appendChild($nomeComercialValue);
@@ -818,7 +813,7 @@ class LaudoController extends Controller
         $envelopeNumeroValue = $dom->createTextNode($pdv->numero_envelope);
         $envelopeNumero = $dom->createElement('EnvelopeNumero');
         $envelopeNumero->appendChild($envelopeNumeroValue);
-        /////////////////////////////////////////////////////////////////////////////////////
+        //---------------------------------------------------------------------------------//
         $linguagemValue = $dom->createTextNode($pdv->linguagem);
         $linguagem = $dom->createElement('Linguagem');
         $linguagem->appendChild($linguagemValue);
@@ -866,7 +861,7 @@ class LaudoController extends Controller
         $aplicacoesEspeciaisValue = $dom->createTextNode($pdv->aplicacoes_especiais);
         $aplicacoesEspeciais = $dom->createElement('AplicacoesEspeciais');
         $aplicacoesEspeciais->appendChild($aplicacoesEspeciaisValue);
-        /////////////////////////////////////////////////////////////////////////////////////
+        //---------------------------------------------------------------------------------//
         $sgbdEmpresaValue = $dom->createTextNode($pdv->razao_social_empresa);
         $sgbdEmpresa = $dom->createElement('SGBDEmpresa');
         $sgbdEmpresa->appendChild($sgbdEmpresaValue);
@@ -890,7 +885,7 @@ class LaudoController extends Controller
         $sgbdArquivoMd5Value = $dom->createTextNode('');
         $sgbdArquivoMd5 = $dom->createElement('SGBDArquivoMD5');
         $sgbdArquivoMd5->appendChild($sgbdArquivoMd5Value);
-        /////////////////////////////////////////////////////////////////////////////////////
+        //---------------------------------------------------------------------------------//
         $spedEmpresaValue = $dom->createTextNode($pdv->razao_social_empresa);
         $spedEmpresa = $dom->createElement('SPEDEmpresa');
         $spedEmpresa->appendChild($spedEmpresaValue);
@@ -914,7 +909,7 @@ class LaudoController extends Controller
         $spedFuncaoValue = $dom->createTextNode($laudo->funcao_sped);
         $spedFuncao = $dom->createElement('SPEDFuncao');
         $spedFuncao->appendChild($spedFuncaoValue);
-        /////////////////////////////////////////////////////////////////////////////////////
+        //---------------------------------------------------------------------------------//
         $nfeEmpresaValue = $dom->createTextNode($pdv->razao_social_empresa);
         $nfeEmpresa = $dom->createElement('NFEEmpresa');
         $nfeEmpresa->appendChild($nfeEmpresaValue);
@@ -951,7 +946,7 @@ class LaudoController extends Controller
         $ecfRelacaoModelo = $dom->createElement('ECFRelacaoModelo');
         $ecfRelacaoModelo->appendChild($ecfRelacaoModeloValue);
 
-        //-------------------------------------------------------------------------------------
+        //-------------------------------------------------------------------------------------//
         //criar node
         $laudoNode = $dom->createElement('Laudo');
         $empresaNode = $dom->createElement('Empresa');
