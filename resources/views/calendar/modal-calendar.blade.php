@@ -15,7 +15,7 @@
                             <label for="title" class="col-sm-4 col-form-label">Título</label>
                             <div class="col-sm-8">
                                 <input type="text" name="title" class="form-control" id="title">
-                                <input type="text" name="id">
+                                <input style="border: none" type="hidden" name="id">
                             </div>
                         </div>
 

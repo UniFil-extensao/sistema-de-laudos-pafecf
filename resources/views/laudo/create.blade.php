@@ -518,8 +518,10 @@
                     `<a class="remove" href="javascript:void(0)"><img src="{{ url('img/minimize-o-sinal.png') }}" width="15" heigth="15"></a>`
 
                 var innerHTML = '<tr>' +
-                    '<td>' + '<input name="re_marca[]" value="' + relacao_marca + '">' + '</td>' +
-                    '<td>' + '<input name="re_modelo[]" value="' + relacao_modelo + '">' + '</td>' +
+                    '<td>' + '<input style="border: none" name="re_marca[]" value="' + relacao_marca +
+                    '">' + '</td>' +
+                    '<td>' + '<input style="border: none" name="re_modelo[]" value="' + relacao_modelo +
+                    '">' + '</td>' +
                     '<td>' + HTMLButton + '</td>' +
                     '</tr>'
                 wrapper.append(innerHTML)
